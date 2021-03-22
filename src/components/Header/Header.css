@@ -1,0 +1,10 @@
+header {
+  background-color: burlywood;
+  padding-top: 44px;
+  padding-bottom: 33px;
+  display: flex; }
+
+nav {
+  display: flex;
+  justify-content: space-between;
+  padding-left: 7.14286%; }

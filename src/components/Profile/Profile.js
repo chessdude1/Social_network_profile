@@ -1,3 +1,6 @@
+import Experience_wall from './Experience_wall/Experience_wall';
+import './Profile.css'
+
 const Profile = () => {
   return (
     <div className="ProfileWrapper">
@@ -27,7 +30,9 @@ const Profile = () => {
           visual and interactive elements.
         </p>
       </div>
+      <Experience_wall/>
     </div>
+
   );
 };
 
