@@ -2,8 +2,7 @@
   background-color: aquamarine; }
 
 .item {
-  padding-top: 10px; }
+  padding-top: 100px; }
 
 .activeButton {
-    color: red;
-}
+  font-size: 12px; }
