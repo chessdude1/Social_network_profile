@@ -2,11 +2,9 @@
   background-color: cornflowerblue;
   margin-left: 1.52vw; }
 
+
 .Messages_content_block {
   display: flex;
   justify-content: space-around;
 }
 
-.Messages_from_persons {
-  justify-content: flex-end;
-}

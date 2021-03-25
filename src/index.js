@@ -3,10 +3,12 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './components/App/App';
 import reportWebVitals from './reportWebVitals';
+import state from './components/redux/state'
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    {/* <App Messages_fromPersons_Data={Messages_fromPersons_Data} Messages_Contacts_Data={Messages_Contacts_Data}/> */}
+    <App state={state}/>
   </React.StrictMode>,
   document.getElementById('root')
 );
