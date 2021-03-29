@@ -5,13 +5,10 @@ import "./MainContentBlock.css"
 import Messages from "./Messages/Messages"
 <<<<<<< HEAD
 <<<<<<< HEAD
-<<<<<<< HEAD
 import Messages_Container from "./Messages/Messages_Container"
 =======
 >>>>>>> parent of 5ed0742 (add_second_page)
 
-=======
->>>>>>> parent of 5afe556 (React_redux-add)
 =======
 >>>>>>> parent of 5afe556 (React_redux-add)
 =======
