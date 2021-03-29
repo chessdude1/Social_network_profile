@@ -1,32 +1,20 @@
+import { Route, Router } from "react-router"
+import { BrowserRouter } from "react-router-dom"
 import Header from "../Header/Header"
 import Profile from "../Profile/Profile"
 import "./MainContentBlock.css"
-<<<<<<< HEAD
 import Messages from "./Messages/Messages"
-<<<<<<< HEAD
 import Messages_Container from "./Messages/Messages_Container"
-=======
->>>>>>> parent of 5ed0742 (add_second_page)
 
-=======
->>>>>>> parent of 5afe556 (React_redux-add)
 
 const Main_content_block = (props) => {
     return (
-<<<<<<< HEAD
           <div class="Main_content_block">
           <Header/>
-            <Route path='/Profile' render={() => <Profile/>}/>
-            {/* <Route path='/Messages' render={() => <Messages Messages_fromPersons_Data={props.Messages_fromPersons_Data} Messages_Contacts_Data={props.Messages_Contacts_Data} />}/> */}
-            <Route path='/Messages' render={() => <Messages Messages_Page_Data={props.state.Messages_page} />}/>
+            <Route path='/Profile' render={() => <Profile state={props.state} dispatch={props.dispatch}/>}/>
+            <Route path='/Messages' render={() => <Messages_Container Messages_Page_Data={props.state.Messages_page} dispatch={props.dispatch} />}/>
         </div>
 
-=======
-        <div class="Main_content_block">
-        <Header/>
-        <Profile/>
-      </div>
->>>>>>> parent of 5ed0742 (add_second_page)
     )
 }
 
