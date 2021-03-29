@@ -3,6 +3,7 @@ import { render } from "@testing-library/react";
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 import LeftBar from "../LeftBar/LefBar";
 import Main_content_block from "../MainContentBlock/MainContentBlock";
 import { BrowserRouter } from "react-router-dom";
@@ -14,6 +15,13 @@ import Main_content_block from '../MainContentBlock/MainContentBlock';
 const App = (props) => {
   return (
 <<<<<<< HEAD
+=======
+import LeftBar from '../LeftBar/LefBar'
+import Main_content_block from '../MainContentBlock/MainContentBlock';
+import { BrowserRouter } from "react-router-dom";
+const App = (props) => {
+  return (  
+>>>>>>> parent of 5afe556 (React_redux-add)
 =======
 import LeftBar from '../LeftBar/LefBar'
 import Main_content_block from '../MainContentBlock/MainContentBlock';
