@@ -8,7 +8,9 @@ import store from "./components/redux/redux-store";
 import { Provider } from "react-redux";
 
 window.store = store;
-let rerenderEntiteTree = (state) => {
+// let rerenderEntiteTree = (state) => {
+
+let state = (store.getState())
   ReactDOM.render(
     <React.StrictMode>
       <Provider store={store}>
@@ -17,15 +19,15 @@ let rerenderEntiteTree = (state) => {
     </React.StrictMode>,
     document.getElementById("root")
   );
-};
+// };
 // AddMassage={store.AddMassage.bind(store)} Change_MessageText={store.Change_MessageText.bind(store)}
-rerenderEntiteTree(store.getState());
+// rerenderEntiteTree(store.getState());
 
-// store.Hold(rerenderEntiteTree)
+// // store.Hold(rerenderEntiteTree)
 
-store.subscribe(() => {
-  //store subscribe Это store.Hold
-  rerenderEntiteTree(store.getState());
-});
+// store.subscribe(() => {
+//   //store subscribe Это store.Hold
+//   rerenderEntiteTree(store.getState());
+// });
 
 reportWebVitals();

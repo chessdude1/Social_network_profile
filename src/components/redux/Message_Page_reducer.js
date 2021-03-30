@@ -21,18 +21,30 @@ let initial_state = {
 const Messages_reducer = (state = initial_state, action) => {
   switch (action.type) {
       case AddMassage : 
+      // let state_copy = {...state};
       let newPost = {
         name: "Lola",
         message: state.MessageText,
         id: "5",
       };
+
+      return {
+        ...state,
+        Messages_fromPersons_Data: [...state.Messages_fromPersons_Data, newPost],
+        MessageText : ' ',
+      }
   
-      state.Messages_fromPersons_Data.push(newPost);
-      state.MessageText = " ";
-        return state
-      case Change_MessageText : 
-      state.MessageText = action.CurrentText;
-        return state
+      // state_copy.Messages_fromPersons_Data.push(newPost);
+      // state_copy.MessageText = " ";
+        // return state_copy
+      case Change_MessageText :
+        // let state_cop_2 = {...state}
+        // state_cop_2.MessageText = action.CurrentText;
+        // return state_cop_2
+        return {
+          ...state,
+          MessageText : action.CurrentText,
+        }
       default : 
       return state
 

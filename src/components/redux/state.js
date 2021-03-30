@@ -6,53 +6,53 @@ const Change_MessageText = "Change_MessageText";
 const AddTextProfilePage = "AddTextProfilePage";
 const ChangeProfilePageText = "ChangeProfilePageText";
 
-let store = {
-  getState() {
-    return this._state;
-  },
-  _state: {
-    Messages_page: {
-      Messages_fromPersons_Data: [
-        { name: "Dima", message: "Hello", id: "1" },
-        { name: "Valera", message: "Bye", id: "2" },
-        { name: "Sonya", message: "How are you", id: "3" },
-      ],
+ let store = {
+//   getState() {
+//     return this._state;
+//   },
+//   _state: {
+//     Messages_page: {
+//       Messages_fromPersons_Data: [
+//         { name: "Dima", message: "Hello", id: "1" },
+//         { name: "Valera", message: "Bye", id: "2" },
+//         { name: "Sonya", message: "How are you", id: "3" },
+//       ],
 
-      Messages_Contacts_Data: [
-        { name: "Dima", message: "Hello", id: "1" },
-        { name: "Valera", message: "Bye", id: "2" },
-        { name: "Sonya", message: "How are you", id: "3" },
-      ],
+//       Messages_Contacts_Data: [
+//         { name: "Dima", message: "Hello", id: "1" },
+//         { name: "Valera", message: "Bye", id: "2" },
+//         { name: "Sonya", message: "How are you", id: "3" },
+//       ],
 
-      MessageText: "Hello I work!",
-    },
-    Experience_post: {
-      Experience_post_description: [{ text: "" }],
+//       MessageText: "Hello I work!",
+//     },
+//     Experience_post: {
+//       Experience_post_description: [{ text: "" }],
 
-      CurrentText: "Hello I work!And i dont stop to do it",
-    },
-  },
+//       CurrentText: "Hello I work!And i dont stop to do it",
+//     },
+//   },
 
-  _rerenderEntiteTree() {
-    console.log("Hello");
-  },
+//   _rerenderEntiteTree() {
+//     console.log("Hello");
+//   },
 
-  Hold(observer) {
-    this._rerenderEntiteTree = observer;
-  },
+//   Hold(observer) {
+//     this._rerenderEntiteTree = observer;
+//   },
 
-  dispatch(action) {
-    this._state.Messages_page = Messages_reducer(
-      this._state.Messages_page,
-      action
-    );
-    this._state.Experience_post = Experience_post_reducer(
-      this._state.Experience_post,
-      action
-    );
-    this._rerenderEntiteTree(this._state);
-  },
-};
+//   dispatch(action) {
+//     this._state.Messages_page = Messages_reducer(
+//       this._state.Messages_page,
+//       action
+//     );
+//     this._state.Experience_post = Experience_post_reducer(
+//       this._state.Experience_post,
+//       action
+//     );
+//     this._rerenderEntiteTree(this._state);
+//   },
+ };
 
 export const ActionCreatorReturn_MessageText = () => {
   return { type: AddTextProfilePage };
@@ -73,4 +73,3 @@ export const ActionCreatorChangeText = (text) => {
 };
 
 export default store;
-window.store = store;
