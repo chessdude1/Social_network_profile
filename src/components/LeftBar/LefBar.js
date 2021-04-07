@@ -9,12 +9,12 @@ const LeftBar = () => {
       </div>
       <div className="Leftbar_menu">
        <div> <NavLink to="/Profile" activeClassName={classes.activeButton}>Profile</NavLink> </div>
-       <div> <NavLink to="/Experience">Experience</NavLink></div>
-       <div><NavLink to="/contact_messages">Contact Messages</NavLink></div>
-       <div><NavLink to="/Messages">Messages</NavLink></div>
-       <div> <NavLink to="/Education">Education</NavLink></div>
-       <div> <NavLink to="/Interests">Interests</NavLink></div>
-       <div> <NavLink to="/Settings">Settings</NavLink></div>
+       <div> <NavLink to="/Experience" activeClassName={classes.activeButton}>Experience</NavLink></div>
+       <div><NavLink to="/contact_messages" activeClassName={classes.activeButton}>Contact Messages</NavLink></div>
+       <div><NavLink to="/Messages" activeClassName={classes.activeButton}>Messages</NavLink></div>
+       <div> <NavLink to="/Education" activeClassName={classes.activeButton}>Education</NavLink></div>
+       <div> <NavLink to="/Interests" activeClassName={classes.activeButton}>Interests</NavLink></div>
+       <div> <NavLink to="/Settings" activeClassName={classes.activeButton}>Settings</NavLink></div>
        
       </div>
       <div className="PremiumButton">Try Premium</div>

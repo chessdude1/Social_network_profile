@@ -1,11 +1,14 @@
 import { connect } from "react-redux"
-import { FollowAC, setUsersAc, UnFollowAc } from "../../redux/Contacts_messages_reducer"
+import { Change_CurrentAc, FollowAC, setUsersAc, UnFollowAc } from "../../redux/Contacts_messages_reducer"
 import Contacts_messagesC from './Contacts_messagesC'
 
 
 let mapStateToProps = (state) => {
     return {
-        Contacts_messages : state.Contacts_messages.users
+        Contacts_messages : state.Contacts_messages.users,
+        totalCount : state.Contacts_messages.totalCount,
+        PageSize : state.Contacts_messages.PageSize,
+        CurrentPage : state.Contacts_messages.CurrentPage
     }
 }
 
@@ -19,6 +22,9 @@ let mapDispatchToProps = (dispatch) => {
         },
         SetUsers : (users) => {
             dispatch ( setUsersAc(users))
+        },
+        ChangeCurrentPage: (page) => {
+            dispatch ( Change_CurrentAc(page))
         }
     }
 }
