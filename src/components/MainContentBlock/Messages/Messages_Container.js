@@ -7,20 +7,6 @@ import { ActionCreatorChangeText } from "../../redux/state";
 import Messages from "./Messages";
 import { connect } from "react-redux";
 
-// const Messages_Container = (props) => {
-
-//   let ReturnText = () => {
-//     props.dispatch(ActionCreatorReturnText());
-//   };
-
-//   let ActionCreator = (text) => {
-//     props.dispatch(ActionCreatorChangeText(text));
-//   };
-
-//   return (<Messages Change_Text_action={ActionCreator} Send_text={ReturnText} Messages_Page_Data={props.Messages_Page_Data}/>);
-// }
-
-// export default Messages_Container
 
 let mapStateToProps = (state) => {
   return {
@@ -36,6 +22,6 @@ let mapDispatchToProps=(dispatch)=> {
       dispatch(ActionCreatorReturnText())},
   }
 }
-const Messages_Container_con = connect(mapStateToProps, mapDispatchToProps)(Messages)
+let Messages_Container_con = connect(mapStateToProps, mapDispatchToProps)(Messages)
 
 export default Messages_Container_con;

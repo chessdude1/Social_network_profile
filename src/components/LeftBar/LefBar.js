@@ -10,6 +10,7 @@ const LeftBar = () => {
       <div className="Leftbar_menu">
        <div> <NavLink to="/Profile" activeClassName={classes.activeButton}>Profile</NavLink> </div>
        <div> <NavLink to="/Experience">Experience</NavLink></div>
+       <div><NavLink to="/contact_messages">Contact Messages</NavLink></div>
        <div><NavLink to="/Messages">Messages</NavLink></div>
        <div> <NavLink to="/Education">Education</NavLink></div>
        <div> <NavLink to="/Interests">Interests</NavLink></div>
