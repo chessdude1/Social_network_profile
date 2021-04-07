@@ -1,19 +1,19 @@
 import axios from "axios";
-import React from "react";
 import  userPhoto from '../../../img/user.png'
+import React from "react";
 
-class Contacts_messages extends React.component {
-  constructor(props) {
+
+class Contacts_messagesC extends React.Component {
+  constructor(props) {  // в конструктор один раз передаеются пропсы (когда конструктор создается)//
     super(props);
   }
-  getUsers = () => {
-    if (this.props.Contacts_messages.length === 0) {
-      axios
-        .get("https://social-network.samuraijs.com/api/1.0/users").then((response) => {
-          this.props.SetUsers(response.data.items);
-        });
-    }
-  };
+
+  componentDidMount (){
+    axios.get("https://social-network.samuraijs.com/api/1.0/users").then( // этот запрос выполнится один раз, тоесть мы сетаем юхеров один раз //
+    (response) => {this.props.SetUsers(response.data.items);
+    })
+  }
+
 
   render() {
     return (
@@ -49,6 +49,7 @@ class Contacts_messages extends React.component {
         ))}
       </div>
     );
-  };
+  }
 }
 
+export default Contacts_messagesC;

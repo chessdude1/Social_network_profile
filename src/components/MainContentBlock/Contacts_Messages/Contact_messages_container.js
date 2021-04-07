@@ -1,6 +1,6 @@
 import { connect } from "react-redux"
 import { FollowAC, setUsersAc, UnFollowAc } from "../../redux/Contacts_messages_reducer"
-import Contacts_messages from './Contacts_messages'
+import Contacts_messagesC from './Contacts_messagesC'
 
 
 let mapStateToProps = (state) => {
@@ -23,7 +23,7 @@ let mapDispatchToProps = (dispatch) => {
     }
 }
 
-let Contact_messages_container = connect(mapStateToProps,mapDispatchToProps)(Contacts_messages)
+let Contact_messages_container = connect(mapStateToProps,mapDispatchToProps)(Contacts_messagesC)
 
 export default Contact_messages_container
 
