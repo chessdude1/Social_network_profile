@@ -1,3 +1,11 @@
 .Profile_interface {
   display: flex;
   justify-content: space-between; }
+
+  .wall_profile {
+    padding-top: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    padding-bottom: 20px
+  }

@@ -1,4 +1,5 @@
 header {
+  margin: 0 auto;
   background-color: burlywood;
   padding-top: 44px;
   padding-bottom: 33px;
@@ -6,5 +7,6 @@ header {
 
 nav {
   display: flex;
-  justify-content: space-between;
-  padding-left: 7.14286%; }
+  justify-content: space-evenly;
+  padding-left: 7.14286%; 
+  padding-right: 60%;}

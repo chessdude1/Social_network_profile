@@ -1,6 +1,7 @@
+import { NavLink } from "react-router-dom"
 import "./Header.css"
 
-const Header=() => {
+const Header=(props) => {
     return(<header>
         <div className="Search_block">
           <button>Search</button>
@@ -10,6 +11,7 @@ const Header=() => {
           <div className="item Nav_My_network">My Network</div>
           <div className="item Nav_Messaging">Messaging</div>
         </nav>
+        { props.LoginStatus ? 'I work' : <NavLink to="/Login">Login</NavLink> }
       </header>)
 }
 

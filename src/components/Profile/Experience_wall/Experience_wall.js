@@ -6,7 +6,7 @@ const Experience_wall = (props) => {
   return (
     <div className='Experience_profile_block'>
       <p className='Experience_title'>Experience</p>
-      <Experience_post_container userFirstName='Dima' userSurname='Nepomnachiy' state={props.state} dispatch={props.dispatch}/> 
+      <Experience_post_container userFirstName='Dima' userSurname='Nepomnachiy' /> 
     </div>
   );
 };
