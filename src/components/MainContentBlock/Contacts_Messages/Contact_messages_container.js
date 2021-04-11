@@ -14,7 +14,9 @@ class Contacts_messagesAPI extends React.Component {
   
     componentDidMount (){
       this.props.isFetchingSwitch(true);
-      axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${this.props.CurrentPage}&count=${this.props.PageSize}`).then( // этот запрос выполнится один раз, тоесть мы сетаем юхеров один раз //
+      axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${this.props.CurrentPage}&count=${this.props.PageSize}`,{
+        withCredentials : true
+      }).then( // этот запрос выполнится один раз, тоесть мы сетаем юхеров один раз //
       (response) => {this.props.SetUsers(response.data.items);
       this.props.isFetchingSwitch(false)
       })
@@ -24,7 +26,9 @@ class Contacts_messagesAPI extends React.Component {
     OnPageChanged = (e) => {
       this.props.ChangeCurrentPage(e);
       this.props.isFetchingSwitch(true);
-      axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${e}&count=${this.props.PageSize}`).then( 
+      axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${e}&count=${this.props.PageSize}`,{
+        withCredentials : true
+      }).then( 
       (response) => {this.props.SetUsers(response.data.items);})
       this.props.isFetchingSwitch(false)
     } // это функция принимающая изменяемую страницу, закидывающая ее в state, потом делает AJAX запрос и все это передается в onClick в button //
