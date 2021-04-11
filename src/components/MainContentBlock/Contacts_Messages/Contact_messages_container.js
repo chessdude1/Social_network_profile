@@ -54,6 +54,26 @@ let mapStateToProps = (state) => {
     }
 }
 
+// let mapDispatchToProps = (dispatch) => {
+//     return {
+//         Follow : (userId) => {
+//             dispatch( FollowAC(userId))
+//         },
+//         UnFollow : (userId) => {
+//             dispatch( UnFollowAc(userId))
+//         },
+//         SetUsers : (users) => {
+//             dispatch ( setUsersAc(users))
+//         },
+//         ChangeCurrentPage: (page) => {
+//             dispatch ( Change_CurrentAc(page))
+//         },
+//         isFetchingSwitch : (isFetchingStatus) => {
+//             dispatch( isFetchingSwitchAC(isFetchingStatus))
+//         }
+//     }
+// }
+
 let Contact_messages_container = connect(mapStateToProps, { Follow, UnFollow, SetUsers, 
     ChangeCurrentPage, isFetchingSwitch})(Contacts_messagesAPI)
 

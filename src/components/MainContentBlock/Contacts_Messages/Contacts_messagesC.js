@@ -14,7 +14,6 @@ const Contacts_messagesC= (props) => {
       <div>
         <div>
           {pages.map(p => {
-            debugger
             return(<button className={p === props.CurrentPage && styles.selectedPage} onClick={()=>{props.OnPageChanged(p)}}>{p}</button>)
           })}
         </div>
