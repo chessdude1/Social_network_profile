@@ -1,5 +1,5 @@
 import { connect } from "react-redux"
-import {ChangeCurrentPage, Follow, isFetchingSwitch, SetUsers, UnFollow } from "../../redux/Contacts_messages_reducer"
+import {ChangeCurrentPage, Follow, isFetchingSwitch, SetUsers, UnFollow, followingInProgressSwitch } from "../../redux/Contacts_messages_reducer"
 import Contacts_messagesC from './Contacts_messagesC'
 import React from "react";
 import axios from "axios";
@@ -41,7 +41,9 @@ class Contacts_messagesAPI extends React.Component {
           CurrentPage={this.props.CurrentPage}
           Contacts_messages={this.props.Contacts_messages}
           Follow={this.props.Follow}
+          followingStatus={this.props.followingStatus}
           UnFollow={this.props.UnFollow}
+          followingInProgressSwitch={this.props.followingInProgressSwitch}
           OnPageChanged={this.OnPageChanged} />
           </>
       }
@@ -50,6 +52,7 @@ class Contacts_messagesAPI extends React.Component {
 
 let mapStateToProps = (state) => {
     return {
+        followingStatus : state.Contacts_messages.followingInProgress,
         Contacts_messages : state.Contacts_messages.users,
         totalCount : state.Contacts_messages.totalCount,
         PageSize : state.Contacts_messages.PageSize,
@@ -58,27 +61,7 @@ let mapStateToProps = (state) => {
     }
 }
 
-// let mapDispatchToProps = (dispatch) => {
-//     return {
-//         Follow : (userId) => {
-//             dispatch( FollowAC(userId))
-//         },
-//         UnFollow : (userId) => {
-//             dispatch( UnFollowAc(userId))
-//         },
-//         SetUsers : (users) => {
-//             dispatch ( setUsersAc(users))
-//         },
-//         ChangeCurrentPage: (page) => {
-//             dispatch ( Change_CurrentAc(page))
-//         },
-//         isFetchingSwitch : (isFetchingStatus) => {
-//             dispatch( isFetchingSwitchAC(isFetchingStatus))
-//         }
-//     }
-// }
-
 let Contact_messages_container = connect(mapStateToProps, { Follow, UnFollow, SetUsers, 
-    ChangeCurrentPage, isFetchingSwitch})(Contacts_messagesAPI)
+    ChangeCurrentPage, isFetchingSwitch, followingInProgressSwitch})(Contacts_messagesAPI)
 
 export default Contact_messages_container

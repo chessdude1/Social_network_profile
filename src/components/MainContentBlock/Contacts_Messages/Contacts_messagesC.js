@@ -26,7 +26,9 @@ const Contacts_messagesC= (props) => {
             <div>{u.name}</div>
             <div>{u.id}</div>
             <div>
-              {u.followed ? (<button onClick={() => { axios.delete(`https://social-network.samuraijs.com/api/1.0/follow/${u.id}`, {
+              {u.followed ? (<button disabled={props.followingStatus.some(id => id == u.id)} onClick={() => {
+                 props.followingInProgressSwitch(true, u.id);
+                 axios.delete(`https://social-network.samuraijs.com/api/1.0/follow/${u.id}`, {
                   withCredentials : true,
                   headers : {
                     'API-KEY' : 'b6a90e3d-08cf-4247-9fbb-5fbf9d42b55d' 
@@ -35,10 +37,12 @@ const Contacts_messagesC= (props) => {
                 (response) => { if (response.data.resultCode == 0) {
                   debugger
                   props.UnFollow(u.id)
+                  props.followingInProgressSwitch(false, u.id);
                 }
                 })
               }}> UnFollow </button>) 
-                : (<button onClick={() => {
+                : (<button  disabled={props.followingStatus.some(id => id == u.id)} onClick={() => {
+                  props.followingInProgressSwitch(true, u.id);
                   axios.post(`https://social-network.samuraijs.com/api/1.0/follow/${u.id}`,{ }, {
                   withCredentials : true,
                   headers : {
@@ -47,6 +51,7 @@ const Contacts_messagesC= (props) => {
                   .then(
                 (response) => { if (response.data.resultCode == 0) {
                   props.Follow(u.id)
+                  props.followingInProgressSwitch(false, u.id);
                 }
                 })
                 }}>  Follow </button>)}
