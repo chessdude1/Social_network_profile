@@ -19,15 +19,6 @@ let state = (store.getState())
     </React.StrictMode>,
     document.getElementById("root")
   );
-// };
-// AddMassage={store.AddMassage.bind(store)} Change_MessageText={store.Change_MessageText.bind(store)}
-// rerenderEntiteTree(store.getState());
 
-// // store.Hold(rerenderEntiteTree)
-
-// store.subscribe(() => {
-//   //store subscribe Это store.Hold
-//   rerenderEntiteTree(store.getState());
-// });
 
 reportWebVitals();
