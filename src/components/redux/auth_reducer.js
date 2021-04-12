@@ -2,8 +2,10 @@ const SetAuthData = 'SetAuthData';
 
 
 let initial_state = {
-    UserData: {},
-    LoginStatus : false
+   userId : null,
+   email : null,
+   login: null,
+   isAuth: false
 };
 
 export const Auth_reducer = (state = initial_state, action) => {
@@ -11,8 +13,9 @@ export const Auth_reducer = (state = initial_state, action) => {
       case SetAuthData:
           return {
               ...state,
-              UserData : action.AuthUserData,
-              LoginStatus : true // переделать авторизацию //
+              ...action.data,
+              isAuth: true,
+ 
           }
         default: 
         return state;
@@ -20,5 +23,5 @@ export const Auth_reducer = (state = initial_state, action) => {
   }
 };
 
-export const SetUserData = (AuthUserData) => ({ type: SetAuthData, AuthUserData });
+export const SetAuthUserData = (userId, email, login) => ({ type: SetAuthData, data: {userId, email, login} });
 
