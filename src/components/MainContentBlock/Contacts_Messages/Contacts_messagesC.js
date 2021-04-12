@@ -3,6 +3,7 @@ import React from "react";
 import styles from './Contacts_messagesC.module.css'
 import { NavLink } from 'react-router-dom';
 import axios from "axios";
+import {followAPIthunkCreator} from '../../redux/Contacts_messages_reducer'
 
 
 const Contacts_messagesC= (props) => {
@@ -27,19 +28,7 @@ const Contacts_messagesC= (props) => {
             <div>{u.id}</div>
             <div>
               {u.followed ? (<button disabled={props.followingStatus.some(id => id == u.id)} onClick={() => {
-                 props.followingInProgressSwitch(true, u.id);
-                 axios.delete(`https://social-network.samuraijs.com/api/1.0/follow/${u.id}`, {
-                  withCredentials : true,
-                  headers : {
-                    'API-KEY' : 'b6a90e3d-08cf-4247-9fbb-5fbf9d42b55d' 
-                  }})
-                  .then(
-                (response) => { if (response.data.resultCode == 0) {
-                  debugger
-                  props.UnFollow(u.id)
-                  props.followingInProgressSwitch(false, u.id);
-                }
-                })
+                props.follow(u.id)
               }}> UnFollow </button>) 
                 : (<button  disabled={props.followingStatus.some(id => id == u.id)} onClick={() => {
                   props.followingInProgressSwitch(true, u.id);

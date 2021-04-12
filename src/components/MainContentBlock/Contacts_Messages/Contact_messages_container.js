@@ -1,5 +1,5 @@
 import { connect } from "react-redux"
-import {ChangeCurrentPage, Follow, isFetchingSwitch, SetUsers, UnFollow, followingInProgressSwitch } from "../../redux/Contacts_messages_reducer"
+import {getUsersAPIthunkCreator, ChangeCurrentPage, Follow, isFetchingSwitch, SetUsers, UnFollow, followingInProgressSwitch, followAPIthunkCreator } from "../../redux/Contacts_messages_reducer"
 import Contacts_messagesC from './Contacts_messagesC'
 import React from "react";
 import axios from "axios";
@@ -13,24 +13,26 @@ class Contacts_messagesAPI extends React.Component {
     }
   
     componentDidMount (){
-      this.props.isFetchingSwitch(true);
-      axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${this.props.CurrentPage}&count=${this.props.PageSize}`,{
-        withCredentials : true
-      }).then( // этот запрос выполнится один раз, тоесть мы сетаем юхеров один раз //
-      (response) => {this.props.SetUsers(response.data.items);
-      this.props.isFetchingSwitch(false)
-      })
+      this.props.getUsersAPIthunkCreator(this.props.CurrentPage, this.props.PageSize)
+      // this.props.isFetchingSwitch(true);
+      // axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${this.props.CurrentPage}&count=${this.props.PageSize}`,{
+      //   withCredentials : true
+      // }).then( // этот запрос выполнится один раз, тоесть мы сетаем юхеров один раз //
+      // (response) => {this.props.SetUsers(response.data.items);
+      // this.props.isFetchingSwitch(false)
+      // })
 
     }
   
     OnPageChanged = (e) => {
       this.props.ChangeCurrentPage(e);
-      this.props.isFetchingSwitch(true);
-      axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${e}&count=${this.props.PageSize}`,{
-        withCredentials : true
-      }).then( 
-      (response) => {this.props.SetUsers(response.data.items);})
-      this.props.isFetchingSwitch(false)
+      this.props.getUsersAPIthunkCreator(e, this.props.PageSize)
+      // this.props.isFetchingSwitch(true);
+      // axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${e}&count=${this.props.PageSize}`,{
+      //   withCredentials : true
+      // }).then( 
+      // (response) => {this.props.SetUsers(response.data.items);})
+      // this.props.isFetchingSwitch(false)
     } // это функция принимающая изменяемую страницу, закидывающая ее в state, потом делает AJAX запрос и все это передается в onClick в button //
   
     render() {
@@ -44,6 +46,7 @@ class Contacts_messagesAPI extends React.Component {
           followingStatus={this.props.followingStatus}
           UnFollow={this.props.UnFollow}
           followingInProgressSwitch={this.props.followingInProgressSwitch}
+          follow={this.props.followAPIthunkCreator}
           OnPageChanged={this.OnPageChanged} />
           </>
       }
@@ -62,6 +65,6 @@ let mapStateToProps = (state) => {
 }
 
 let Contact_messages_container = connect(mapStateToProps, { Follow, UnFollow, SetUsers, 
-    ChangeCurrentPage, isFetchingSwitch, followingInProgressSwitch})(Contacts_messagesAPI)
+    ChangeCurrentPage, isFetchingSwitch, followingInProgressSwitch, getUsersAPIthunkCreator, followAPIthunkCreator})(Contacts_messagesAPI)
 
 export default Contact_messages_container

@@ -1,3 +1,7 @@
+import axios from "axios";
+import { ContactsAPI } from "../../api/api";
+
+
 const UnFollow_change = 'UnFollow_change';
 const Follow_change = 'Follow_change';
 const Set_users = 'Set_users';
@@ -62,3 +66,34 @@ export const SetUsers = (users) => ({type: Set_users, users});
 export const ChangeCurrentPage = (CurrentPage) => ({type: Change_CurrentPage, CurrentPage});
 export const isFetchingSwitch = (isFetchingStatus) => ({type: isFetchingSwitch_type, isFetchingStatus });
 export const followingInProgressSwitch = (followingStatus, userId) => ({type: followingInProgress_type, followingStatus, userId })
+
+export const followAPIthunkCreator = (userID) => {
+  return (dispatch) => {
+    dispatch(followingInProgressSwitch(true, userID));
+    ContactsAPI.unfollow(userID)
+     .then(
+   (response) => { if (response.data.resultCode == 0) {
+     dispatch(UnFollow(userID))
+     dispatch(followingInProgressSwitch(false, userID));
+   }
+   })
+  }
+}
+
+export const getUsersAPIthunkCreator = (CurrentPage, PageSize) => {
+  return (dispatch) => {
+    // dispatch(isFetchingSwitch(true));
+      // axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${CurrentPage}&count=${PageSize}`,{
+      //   withCredentials : true
+      // }).then( 
+      // (response) => {dispatch(SetUsers(response.data.items));
+      // dispatch(isFetchingSwitch(false))
+      // })
+      dispatch(isFetchingSwitch(true));
+      ContactsAPI.getUsers(CurrentPage, PageSize).then( 
+      (response) => {dispatch(SetUsers(response));
+      dispatch(isFetchingSwitch(false))
+      })
+  } 
+};
+

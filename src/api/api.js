@@ -19,3 +19,17 @@ export const ProfileAPI = {
         })
     }
 }
+
+export const ContactsAPI = {
+    getUsers(CurrentPage, PageSize) {
+        return instance.get(`users?page=${CurrentPage}&count=${PageSize}`).then(response => {
+            return(response.data.items)
+        })
+        },
+    unfollow(userID) {
+        return instance.delete(`follow/${userID}`).then(response => {
+            return(response)
+        })
+    }
+    }
+
