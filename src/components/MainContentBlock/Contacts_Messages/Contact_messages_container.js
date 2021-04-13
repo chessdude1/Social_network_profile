@@ -2,8 +2,9 @@ import { connect } from "react-redux"
 import {getUsersAPIthunkCreator, ChangeCurrentPage, Follow, isFetchingSwitch, SetUsers, UnFollow, followingInProgressSwitch, followAPIthunkCreator } from "../../redux/Contacts_messages_reducer"
 import Contacts_messagesC from './Contacts_messagesC'
 import React from "react";
-import axios from "axios";
 import Preloader from "../../common/preloader";
+import { Redirect } from 'react-router-dom';
+import { withAuthRedirectComponent } from "../../HOC/withAuthRedirect";
 
 
 
@@ -13,6 +14,7 @@ class Contacts_messagesAPI extends React.Component {
     }
   
     componentDidMount (){
+      debugger
       this.props.getUsersAPIthunkCreator(this.props.CurrentPage, this.props.PageSize)
       // this.props.isFetchingSwitch(true);
       // axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${this.props.CurrentPage}&count=${this.props.PageSize}`,{
@@ -36,6 +38,9 @@ class Contacts_messagesAPI extends React.Component {
     } // это функция принимающая изменяемую страницу, закидывающая ее в state, потом делает AJAX запрос и все это передается в onClick в button //
   
     render() {
+      if (!this.props.AuthStatus) {
+        return (<Redirect to={'/Login'}/>)
+      }
       return<>
       {this.props.isFetching ? <Preloader/>: <p>I work</p>}
       <Contacts_messagesC totalCount={this.props.totalCount} 
@@ -47,6 +52,7 @@ class Contacts_messagesAPI extends React.Component {
           UnFollow={this.props.UnFollow}
           followingInProgressSwitch={this.props.followingInProgressSwitch}
           follow={this.props.followAPIthunkCreator}
+          AuthStatus={this.props.AuthStatus}
           OnPageChanged={this.OnPageChanged} />
           </>
       }
@@ -60,11 +66,20 @@ let mapStateToProps = (state) => {
         totalCount : state.Contacts_messages.totalCount,
         PageSize : state.Contacts_messages.PageSize,
         CurrentPage : state.Contacts_messages.CurrentPage,
-        isFetching : state.Contacts_messages.isFetching
+        isFetching : state.Contacts_messages.isFetching,
+        AuthStatus : state.Auth.isAuth
     }
 }
 
+// let AuthRedirectComponent = (props) => {
+//   if (!props.AuthStatus) {
+//     return (<Redirect to={'/Login'}/>) }
+//     return (<Contacts_messagesAPI {...props}/>)
+// }
+
+let AuthRedirectComponent = withAuthRedirectComponent(Contacts_messagesAPI)
+
 let Contact_messages_container = connect(mapStateToProps, { Follow, UnFollow, SetUsers, 
-    ChangeCurrentPage, isFetchingSwitch, followingInProgressSwitch, getUsersAPIthunkCreator, followAPIthunkCreator})(Contacts_messagesAPI)
+    ChangeCurrentPage, isFetchingSwitch, followingInProgressSwitch, getUsersAPIthunkCreator, followAPIthunkCreator})(AuthRedirectComponent)
 
 export default Contact_messages_container

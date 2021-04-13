@@ -1,7 +1,7 @@
 import  userPhoto from '../../../img/user.png'
 import React from "react";
 import styles from './Contacts_messagesC.module.css'
-import { NavLink } from 'react-router-dom';
+import { NavLink, Redirect } from 'react-router-dom';
 import axios from "axios";
 import {followAPIthunkCreator} from '../../redux/Contacts_messages_reducer'
 
@@ -15,6 +15,7 @@ const Contacts_messagesC= (props) => {
     return (
       <div>
         <div>
+          {}
           {pages.map(p => {
             return(<button className={p === props.CurrentPage && styles.selectedPage} onClick={()=>{props.OnPageChanged(p)}}>{p}</button>)
           })}

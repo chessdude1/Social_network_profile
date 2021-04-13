@@ -1,8 +1,8 @@
 import { NavLink } from "react-router-dom"
 import "./Header.css"
 
+
 const Header=(props) => {
-  debugger
     return(<header>
         <div className="Search_block">
           <button>Search</button>
