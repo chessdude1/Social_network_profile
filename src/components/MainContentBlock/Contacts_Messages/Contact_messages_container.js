@@ -5,6 +5,7 @@ import React from "react";
 import Preloader from "../../common/preloader";
 import { Redirect } from 'react-router-dom';
 import { withAuthRedirectComponent } from "../../HOC/withAuthRedirect";
+import { compose } from "redux";
 
 
 
@@ -77,9 +78,10 @@ let mapStateToProps = (state) => {
 //     return (<Contacts_messagesAPI {...props}/>)
 // }
 
-let AuthRedirectComponent = withAuthRedirectComponent(Contacts_messagesAPI)
+export default compose (
+  connect(mapStateToProps, { Follow, UnFollow, SetUsers, 
+    ChangeCurrentPage, isFetchingSwitch, followingInProgressSwitch, getUsersAPIthunkCreator, followAPIthunkCreator}),
+  withAuthRedirectComponent
+)
+(Contacts_messagesAPI)
 
-let Contact_messages_container = connect(mapStateToProps, { Follow, UnFollow, SetUsers, 
-    ChangeCurrentPage, isFetchingSwitch, followingInProgressSwitch, getUsersAPIthunkCreator, followAPIthunkCreator})(AuthRedirectComponent)
-
-export default Contact_messages_container

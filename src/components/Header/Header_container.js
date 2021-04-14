@@ -9,7 +9,6 @@ import axios from "axios";
 
 class Header_containerAPI extends React.Component {
     componentDidMount() {
-        debugger;
         axios.get(`https://social-network.samuraijs.com/api/1.0/auth/me`, {
             withCredentials: true
         }). then(response => {
