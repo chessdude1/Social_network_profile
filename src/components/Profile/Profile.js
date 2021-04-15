@@ -14,7 +14,7 @@ const Profile = (props) => {
           <img src={props.ProfileSmallPhoto}></img>
           <p>{props.ProfileFullName}</p>
           <p>{props.ProfileAboutMe}</p>
-          <Status status ={'Hello'}/>
+          <Status status ={props.Status} updateStatus = {props.updateStatus}/>
         </div>
         <div className="Profile_name">
           <h1>Kristin W.</h1>

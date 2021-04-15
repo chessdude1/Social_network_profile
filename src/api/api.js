@@ -17,6 +17,12 @@ export const ProfileAPI = {
         return instance.get(`profile/` + CurrentUserID).then(response => {
            return( response.data)
         })
+    },
+    getUserStatus (userID) {
+        return instance.get(`profile/status/` + userID);
+    },
+    updateStatus (status) {
+        return instance.put(`profile/status`, {status: status})
     }
 }
 
@@ -27,7 +33,7 @@ export const ContactsAPI = {
         })
         },
     unfollow(userID) {
-        return instance.delete(`follow/${userID}`).then(response => {
+        return instance.delete(`follow/${userID}`).then(response => { //можно без response //
             return(response)
         })
     }

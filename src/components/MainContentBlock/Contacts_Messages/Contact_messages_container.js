@@ -15,7 +15,6 @@ class Contacts_messagesAPI extends React.Component {
     }
   
     componentDidMount (){
-      debugger
       this.props.getUsersAPIthunkCreator(this.props.CurrentPage, this.props.PageSize)
       // this.props.isFetchingSwitch(true);
       // axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${this.props.CurrentPage}&count=${this.props.PageSize}`,{
