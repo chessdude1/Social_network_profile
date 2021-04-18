@@ -1,45 +1,43 @@
 import "./Experience_post.css";
 import React from "react";
-import store, { ActionCreatorReturn_MessageText } from "../../../redux/state";
-import { ActionCreatorChangeProfilePageText } from "../../../redux/state";
+import { Field, reduxForm } from "redux-form";
+
+const Experience_post_form = (props) => {
+  return (
+    <form onSubmit={props.handleSubmit}>
+      <Field
+        placeholder={"Write your experience"}
+        name={"ExperienceForm"}
+        component={"input"}>
+        </Field>
+      <div>
+        <button>Save</button>
+      </div>
+    </form>
+  );
+};
+
+const AddPostReduxForm = reduxForm({ form: "ExperienceForm" })(
+  Experience_post_form
+);
 
 const Experience_post = (props) => {
   let AllPostOnWall = props.Experience_post.Experience_post_description.map(
     (messages) => messages.text
   );
-  let TextFromTextArea = React.createRef();
-
-//   let SendTextInState = () => {
-//       props.dispatch(ActionCreatorReturn_MessageText())
-//   }
-
-  let SendTextInState = () => {
-    props.SendTextInStateExperience();
-  };
-
-//   let ChangeText = () => {
-//       let text = TextFromTextArea.current.value;
-//       props.dispatch(ActionCreatorChangeProfilePageText(text))
-//   }
-
-  let ChangeText = () => {
-    let text = TextFromTextArea.current.value;
-    props.Change_Text_Actual(text);
+  let AddNewExperience = (values) => {
+    props.ChProfilePageText(values.ExperienceForm);
+    props.Return_MessageText();
   };
 
   return (
     <div className="Experience_post_block">
       <div className="Experience_post_pic"></div>
       <div className="Experience_post_description">
-        {props.userFirstName} <br />
-        {props.userSurname}
-        <textarea
-          ref={TextFromTextArea}
-          onChange={ChangeText}
-          value={props.Experience_post.CurrentText}
-        ></textarea>
-        <button onClick={SendTextInState}>I work</button>
-        {AllPostOnWall} 
+        <AddPostReduxForm onSubmit={AddNewExperience} />
+        {props.Experience_post.Experience_post_description.map((u) => {
+          return <div>{u.text}</div>;
+        })}
       </div>
     </div>
   );

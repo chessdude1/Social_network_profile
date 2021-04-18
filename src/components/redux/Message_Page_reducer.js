@@ -1,5 +1,8 @@
 const AddMassage = "AddMassage";
 const Change_MessageText = "Change_MessageText";
+const AddTextProfilePage = "AddTextProfilePage";
+const ChangeProfilePageText = "ChangeProfilePageText";
+
 
 let initial_state = {
   Messages_fromPersons_Data: [
@@ -21,7 +24,6 @@ let initial_state = {
 const Messages_reducer = (state = initial_state, action) => {
   switch (action.type) {
       case AddMassage : 
-      // let state_copy = {...state};
       let newPost = {
         name: "Lola",
         message: state.MessageText,
@@ -33,14 +35,7 @@ const Messages_reducer = (state = initial_state, action) => {
         Messages_fromPersons_Data: [...state.Messages_fromPersons_Data, newPost],
         MessageText : ' ',
       }
-  
-      // state_copy.Messages_fromPersons_Data.push(newPost);
-      // state_copy.MessageText = " ";
-        // return state_copy
       case Change_MessageText :
-        // let state_cop_2 = {...state}
-        // state_cop_2.MessageText = action.CurrentText;
-        // return state_cop_2
         return {
           ...state,
           MessageText : action.CurrentText,
@@ -51,6 +46,14 @@ const Messages_reducer = (state = initial_state, action) => {
   } 
 
 
+};
+
+export const ActionCreatorReturnText = () => {
+  return { type: AddMassage };
+};
+
+export const ActionCreatorChangeText = (text) => {
+  return { type: Change_MessageText, CurrentText: text };
 };
 
 export default Messages_reducer;

@@ -2,12 +2,30 @@ import React from "react";
 import "./Messages.css";
 import Contacts from "./Messages_contacts/Contacts.js";
 import Messages_from_person from "./Messages_from_persons/Messages_from_person";
-import { ActionCreatorReturnText } from "../../redux/state";
-import { ActionCreatorChangeText } from "../../redux/state";
+import { Field, reduxForm } from "redux-form";
+
+const AddMassageForm = (props) => {
+  return ( <form onSubmit={props.handleSubmit}>
+  <Field placeholder = {'Enter your message'} name={'MessageText'}  component={'input'}></Field>
+    <div>
+      <button >Send</button>
+    </div> 
+  </form>
+  )
+}
+
+const AddMessageReduxForm = reduxForm(
+  {form : 'MessageForm'})
+  (AddMassageForm)
+
 
 const Messages = (props) => {
-  //  let Persons_Data =  props.Messages_fromPersons_Data.map(data => <Contacts name={data.name} id={data.id}/>)
-  //  let Contact_messages = props.Messages_Contacts_Data.map(data=> <Messages_from_person name={data.name} message={data.message} id={data.id}/>)
+  
+const AddNewMesssage = (values) => {
+  props.ActionCreatorChangeText(values.MessageText);
+  props.ActionCreatorReturnText();
+}
+
   let AllContactsMessage = props.Messages_Page_Data.Messages_fromPersons_Data.map(
     (data) => (
       <Messages_from_person
@@ -17,26 +35,6 @@ const Messages = (props) => {
       />
     )
   );
-  
-  let TextFromTextArea = React.createRef();
-
-  // let ReturnText = () => {
-  //   props.dispatch(ActionCreatorReturnText());
-  // };
-
-  let ReturnText = () => {
-    props.Send_text();
-  };
-
-  // let Change_Text = () => {
-  //   let text = TextFromTextArea.current.value;
-  //   props.dispatch(ActionCreatorChangeText(text));
-  // };
-
-  let Change_Text = () => {
-    let text = TextFromTextArea.current.value;
-    props.Change_Text_action(text);
-  };
 
   return (
     <div className="Messages_wrapper">
@@ -83,12 +81,7 @@ const Messages = (props) => {
           />
         </div>
         <div className="Message_text">
-          <textarea
-            ref={TextFromTextArea}
-            onChange={Change_Text}
-            value={props.Messages_Page_Data.MessageText}
-          />
-          <button onClick={ReturnText}>Вызвать текст</button>
+          <AddMessageReduxForm onSubmit={AddNewMesssage}/>
         </div>
       </div>
     </div>
@@ -96,3 +89,4 @@ const Messages = (props) => {
 };
 
 export default Messages;
+

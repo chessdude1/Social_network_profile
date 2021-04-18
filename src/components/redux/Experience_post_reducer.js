@@ -2,9 +2,8 @@ const AddTextProfilePage = "AddTextProfilePage";
 const ChangeProfilePageText = "ChangeProfilePageText";
 
 let initial_state = {
-  Experience_post_description: [{ text: "Hello" }],
+  Experience_post_description: [],
 
-  CurrentText: "Hello I work!And i dont stop to do it",
 };
 
 
@@ -20,8 +19,6 @@ const Experience_post_reducer = (state = initial_state, action) => {
         text: state.CurrentText,
       };
 
-      window.newTextProfilePage = newTextProfilePage;
-      debugger
       return { 
         ...state,
         Experience_post_description : [...state.Experience_post_description, newTextProfilePage],
@@ -32,6 +29,17 @@ const Experience_post_reducer = (state = initial_state, action) => {
     default:
       return state;
   }
+};
+
+export const ChProfilePageText = (textProfilePage) => {
+  return {
+    type: ChangeProfilePageText,
+    CurrentProfilePageText: textProfilePage,
+  };
+};
+
+export const Return_MessageText = () => {
+  return { type: AddTextProfilePage };
 };
 
 export default Experience_post_reducer;

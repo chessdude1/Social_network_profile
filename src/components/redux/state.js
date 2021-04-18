@@ -1,12 +1,12 @@
-import Messages_reducer from "./Message_Page_reducer";
-import Experience_post_reducer from "./Experience_post_reducer";
+// import Messages_reducer from "./Message_Page_reducer";
+// import Experience_post_reducer from "./Experience_post_reducer";
 
-const AddMassage = "AddMassage";
-const Change_MessageText = "Change_MessageText";
-const AddTextProfilePage = "AddTextProfilePage";
-const ChangeProfilePageText = "ChangeProfilePageText";
+// const AddMassage = "AddMassage";
+// const Change_MessageText = "Change_MessageText";
+// const AddTextProfilePage = "AddTextProfilePage";
+// const ChangeProfilePageText = "ChangeProfilePageText";
 
- let store = {
+//  let store = {
 //   getState() {
 //     return this._state;
 //   },
@@ -52,24 +52,23 @@ const ChangeProfilePageText = "ChangeProfilePageText";
 //     );
 //     this._rerenderEntiteTree(this._state);
 //   },
- };
+//  };
 
-export const ActionCreatorReturn_MessageText = () => {
-  return { type: AddTextProfilePage };
-};
+// export const ActionCreatorReturn_MessageText = () => {
+//   return { type: AddTextProfilePage };
+// };
 
-export const ActionCreatorChangeProfilePageText = (textProfilePage) => {
-  return {
-    type: ChangeProfilePageText,
-    CurrentProfilePageText: textProfilePage,
-  };
-};
-export const ActionCreatorReturnText = () => {
-  return { type: AddMassage };
-};
+// export const ActionCreatorChangeProfilePageText = (textProfilePage) => {
+//   return {
+//     type: ChangeProfilePageText,
+//     CurrentProfilePageText: textProfilePage,
+//   };
+// };
+// export const ActionCreatorReturnText = () => {
+//   return { type: AddMassage };
+// };
 
-export const ActionCreatorChangeText = (text) => {
-  return { type: Change_MessageText, CurrentText: text };
-};
+// export const ActionCreatorChangeText = (text) => {
+//   return { type: Change_MessageText, CurrentText: text };
+// };
 
-export default store;
