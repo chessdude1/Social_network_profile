@@ -1,14 +1,19 @@
 import "./Experience_post.css";
 import React from "react";
 import { Field, reduxForm } from "redux-form";
+import { maxLengthCreator, required } from "../../../../utilites/validators";
+import { InputExperience } from "../../../common/FormsControl";
+
+const maxLength = maxLengthCreator(50)
 
 const Experience_post_form = (props) => {
   return (
     <form onSubmit={props.handleSubmit}>
       <Field
         placeholder={"Write your experience"}
+        validate = {[required, maxLength]}
         name={"ExperienceForm"}
-        component={"input"}>
+        component={InputExperience}>
         </Field>
       <div>
         <button>Save</button>

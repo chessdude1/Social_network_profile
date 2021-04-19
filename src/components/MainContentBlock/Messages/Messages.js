@@ -3,10 +3,15 @@ import "./Messages.css";
 import Contacts from "./Messages_contacts/Contacts.js";
 import Messages_from_person from "./Messages_from_persons/Messages_from_person";
 import { Field, reduxForm } from "redux-form";
+import { maxLengthCreator, required } from "../../../utilites/validators";
+import { Textarea } from "../../common/FormsControl";
+
+
+const maxLength = maxLengthCreator(50)
 
 const AddMassageForm = (props) => {
   return ( <form onSubmit={props.handleSubmit}>
-  <Field placeholder = {'Enter your message'} name={'MessageText'}  component={'input'}></Field>
+  <Field placeholder = {'Enter your message'} name={'MessageText'}  component={Textarea} validate={[required, maxLength]}></Field>
     <div>
       <button >Send</button>
     </div> 
