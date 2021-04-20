@@ -11,7 +11,7 @@ class Profile_ContainerAPI extends React.Component {
     componentDidMount() {
         let CurrentUserID = this.props.match.params.userID;
         if (!CurrentUserID) {
-            CurrentUserID = 16412;
+            CurrentUserID = this.props.AuthLogin;
         }
  
         this.props.getStatus(CurrentUserID)
@@ -25,6 +25,7 @@ class Profile_ContainerAPI extends React.Component {
             ProfileFullName = {this.props.ProfileFullName}
             Status = {this.props.status}
             updateStatus = {this.props.updateStatus}
+            isAuth = {this.props.isAuth}
             />)
         }
 }
@@ -34,6 +35,8 @@ let mapStateToProps = (state) => ({
     ProfileSmallPhoto : state.Profile_page.Profile.photos.small,
     ProfileFullName : state.Profile_page.Profile.fullName,
     status : state.Profile_page.status,
+    isAuth : state.Auth.isAuth,
+    AuthLogin : state.Auth.userId
 })
 
 export default compose(
@@ -42,9 +45,4 @@ export default compose(
 )
 (Profile_ContainerAPI)
 
-// let WithURLDataContainerComponent = withRouter(Profile_ContainerAPI);
-
-// let Profile_Container = connect(mapStateToProps, {SetUserProfile})(WithURLDataContainerComponent)
-
-// export default Profile_Container;
 

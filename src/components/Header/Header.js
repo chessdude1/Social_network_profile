@@ -1,7 +1,6 @@
 import { NavLink } from "react-router-dom"
 import "./Header.css"
 
-
 const Header=(props) => {
     return(<header>
         <div className="Search_block">
@@ -12,7 +11,7 @@ const Header=(props) => {
           <div className="item Nav_My_network">My Network</div>
           <div className="item Nav_Messaging">Messaging</div>
         </nav>
-        { props.loginStatus ? 'I work' : <NavLink to="/Login">Login</NavLink> }
+        { props.loginStatus ? <div>{props.login} <button onClick={props.logout}>logout</button></div>   : <NavLink to="/Login">Login</NavLink> }
       </header>)
 }
 

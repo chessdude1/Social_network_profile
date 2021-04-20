@@ -3,6 +3,7 @@ import './Profile.css'
 import wall_profile from '../../img/wall_profile.jpg'
 import cat_profile from '../../img/cat_profile.jpg'
 import Status from './status/status'
+import { Redirect } from 'react-router';
 
 
 const Profile = (props) => {

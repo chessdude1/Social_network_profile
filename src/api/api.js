@@ -39,3 +39,15 @@ export const ContactsAPI = {
     }
     }
 
+export const AuthAPI = {
+    getLoginData() {
+        return instance.get(`auth/me`)
+    },
+    login(email, password, rememberMe = false) {
+        return instance.post(`auth/login`, {email, password, rememberMe})
+    },
+    logOut() {
+        return instance.delete(`auth/login`)
+    },
+}
+

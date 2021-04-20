@@ -6,13 +6,13 @@ import Contact_messages_container from "./Contacts_Messages/Contact_messages_con
 import "./MainContentBlock.css"
 import Messages_Container from "./Messages/Messages_Container"
 import Settings from "./Settings/Settings"
-import {Login} from '../Header/Login/Login'
+import LoginContainer from "../Header/Login/LoginContainer"
 
 const Main_content_block = (props) => {
     return (
           <div class="Main_content_block">
             <Header_container/>
-            <Route path='/Login' render={() => <Login/>}/>
+            <Route path='/Login' render={() => <LoginContainer/>}/>
             <Route path='/Profile/:userID?' render={() => <Profile_Container state={props.state} dispatch={props.dispatch}/>}/>
             <Route path='/Messages' render={() => <Messages_Container Messages_Page_Data={props.state.Messages_page} dispatch={props.dispatch} />}/>
             <Route path='/contact_messages' render={() => <Contact_messages_container />}/>
