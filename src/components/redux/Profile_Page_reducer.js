@@ -43,9 +43,5 @@ export const updateStatus = (status) => (dispatch) => {
     }
   })
 }
-// dispatch(isFetchingSwitch(true));
-//       ContactsAPI.getUsers(CurrentPage, PageSize).then( 
-//       (response) => {dispatch(SetUsers(response));
-//       dispatch(isFetchingSwitch(false))
-//       })
+
 
