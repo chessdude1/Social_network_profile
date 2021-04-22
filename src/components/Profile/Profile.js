@@ -2,7 +2,7 @@ import Experience_wall from './Experience_wall/Experience_wall';
 import './Profile.css'
 import wall_profile from '../../img/wall_profile.jpg'
 import cat_profile from '../../img/cat_profile.jpg'
-import Status from './status/status'
+import StatusWithHooks from './status/statusWithHooks'
 import { Redirect } from 'react-router';
 
 
@@ -15,7 +15,7 @@ const Profile = (props) => {
           <img src={props.ProfileSmallPhoto}></img>
           <p>{props.ProfileFullName}</p>
           <p>{props.ProfileAboutMe}</p>
-          <Status status ={props.Status} updateStatus = {props.updateStatus}/>
+          <StatusWithHooks status ={props.Status} updateStatus = {props.updateStatus}/>
         </div>
         <div className="Profile_name">
           <h1>Kristin W.</h1>

@@ -6,11 +6,12 @@ import Preloader from "../../common/preloader";
 import { Redirect } from 'react-router-dom';
 import { withAuthRedirectComponent } from "../../HOC/withAuthRedirect";
 import { compose } from "redux";
+import { GetFollowingStatus, GetContacts_messages, GetPageSize, GetTotalCount, GetCurrentPage, GetIsFetching, GetAuthStatus } from "../../redux/selectors/Contact_messages_reducer";
 
 
 
 class Contacts_messagesAPI extends React.Component {
-    constructor(props) {  // в конструктор один раз передаеются пропсы (когда конструктор создается)//
+    constructor(props) {  
       super(props);
     }
   
@@ -21,7 +22,7 @@ class Contacts_messagesAPI extends React.Component {
     OnPageChanged = (e) => {
       this.props.ChangeCurrentPage(e);
       this.props.getUsersAPIthunkCreator(e, this.props.PageSize)
-    } // это функция принимающая изменяемую страницу, закидывающая ее в state, потом делает AJAX запрос и все это передается в onClick в button //
+    } 
   
     render() {
       if (!this.props.AuthStatus) {
@@ -47,21 +48,15 @@ class Contacts_messagesAPI extends React.Component {
 
 let mapStateToProps = (state) => {
     return {
-        followingStatus : state.Contacts_messages.followingInProgress,
-        Contacts_messages : state.Contacts_messages.users,
-        totalCount : state.Contacts_messages.totalCount,
-        PageSize : state.Contacts_messages.PageSize,
-        CurrentPage : state.Contacts_messages.CurrentPage,
-        isFetching : state.Contacts_messages.isFetching,
-        AuthStatus : state.Auth.isAuth
+        followingStatus : GetFollowingStatus(state),
+        Contacts_messages : GetContacts_messages(state),
+        totalCount : GetTotalCount(state),
+        PageSize : GetPageSize(state),
+        CurrentPage :GetCurrentPage(state),
+        isFetching :GetIsFetching(state),
+        AuthStatus : GetAuthStatus(state)
     }
 }
-
-// let AuthRedirectComponent = (props) => {
-//   if (!props.AuthStatus) {
-//     return (<Redirect to={'/Login'}/>) }
-//     return (<Contacts_messagesAPI {...props}/>)
-// }
 
 export default compose (
   connect(mapStateToProps, { Follow, UnFollow, SetUsers, 

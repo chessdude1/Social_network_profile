@@ -33,7 +33,7 @@ export const ContactsAPI = {
         })
         },
     unfollow(userID) {
-        return instance.delete(`follow/${userID}`).then(response => { //можно без response //
+        return instance.delete(`follow/${userID}`).then(response => { // можно без response //
             return(response)
         })
     }

@@ -22,7 +22,6 @@ export const InitializedSwitch = () => ({type: InitializedSuccess})
 
 export const initializedApp = () => (dispatch) => {
   let promise = dispatch(getAuthUserDataThunkCreator())
-  debugger
   promise.then (() => {
     dispatch(InitializedSwitch())
   })
