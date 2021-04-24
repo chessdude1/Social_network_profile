@@ -4,18 +4,24 @@ import wall_profile from '../../img/wall_profile.jpg'
 import cat_profile from '../../img/cat_profile.jpg'
 import StatusWithHooks from './status/statusWithHooks'
 import { Redirect } from 'react-router';
+import React from "react";
+import { memo } from 'react';
 
 
-const Profile = (props) => {
-  return (
+class Profile extends React.Component  {
+  shouldComponentUpdate(nextProps, nextState) {
+    return (nextProps != this.props || nextState != this.State)
+  }
+  render () {
+    return(
     <div className="ProfileWrapper">
       <img src={wall_profile} className='wall_profile'></img>
       <div className="Profile_header">
         <div className="Profile_logo">
-          <img src={props.ProfileSmallPhoto}></img>
-          <p>{props.ProfileFullName}</p>
-          <p>{props.ProfileAboutMe}</p>
-          <StatusWithHooks status ={props.Status} updateStatus = {props.updateStatus}/>
+          <img src={this.props.ProfileSmallPhoto}></img>
+          <p>{this.props.ProfileFullName}</p>
+          <p>{this.props.ProfileAboutMe}</p>
+          <StatusWithHooks status ={this.props.Status} updateStatus = {this.props.updateStatus}/>
         </div>
         <div className="Profile_name">
           <h1>Kristin W.</h1>
@@ -39,9 +45,9 @@ const Profile = (props) => {
         </p>
       </div>
       <Experience_wall />
-    </div>
-
-  );
-};
+    </div> 
+    )
+    }
+  };
 
 export default Profile

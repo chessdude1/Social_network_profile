@@ -1,7 +1,6 @@
 const AddMassage = "AddMassage";
 const Change_MessageText = "Change_MessageText";
-const AddTextProfilePage = "AddTextProfilePage";
-const ChangeProfilePageText = "ChangeProfilePageText";
+const DeleteMessage = "DeleteMessage";
 
 
 let initial_state = {
@@ -35,6 +34,10 @@ const Messages_reducer = (state = initial_state, action) => {
         Messages_fromPersons_Data: [...state.Messages_fromPersons_Data, newPost],
         MessageText : ' ',
       }
+      case DeleteMessage :
+        return {
+          ...state
+        }
       case Change_MessageText :
         return {
           ...state,
@@ -50,6 +53,10 @@ const Messages_reducer = (state = initial_state, action) => {
 
 export const ActionCreatorReturnText = () => {
   return { type: AddMassage };
+};
+
+export const ActionDeleteMessage = () => {
+  return { type: DeleteMessage };
 };
 
 export const ActionCreatorChangeText = (text) => {
