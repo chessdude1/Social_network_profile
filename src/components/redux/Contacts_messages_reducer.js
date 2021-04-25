@@ -1,5 +1,6 @@
 import axios from "axios";
 import { ContactsAPI } from "../../api/api";
+import { updateObjectInArray } from "../../utilites/object-helpers";
 
 
 const UnFollow_change = 'UnFollow_change';
@@ -31,22 +32,18 @@ export const Contacts_messages_reducer = (state = initial_state, action) => {
     case Follow_change:
       return {
         ...state,
-        users: state.users.map(u => {
-          if (u.id == action.userId) {
-            return { ...u, followed: true };
-          }
-          return u
-        }),
+        users : updateObjectInArray(state.users, action.userId, 'id', {followed : true})
       };
     case UnFollow_change:
       return {
         ...state,
-        users: state.users.map(u => {
-          if (u.id == action.userId) {
-            return { ...u, followed : false };
-          }
-          return u
-        }),
+        users : updateObjectInArray(state.users, action.userId, 'id', {followed : false})
+        // users: state.users.map(u => {
+        //   if (u.id == action.userId) {
+        //     return { ...u, followed : false };
+        //   }
+        //   return u
+        // }),
       };
     case followingInProgress_type:
       return {
@@ -67,33 +64,39 @@ export const ChangeCurrentPage = (CurrentPage) => ({type: Change_CurrentPage, Cu
 export const isFetchingSwitch = (isFetchingStatus) => ({type: isFetchingSwitch_type, isFetchingStatus });
 export const followingInProgressSwitch = (followingStatus, userId) => ({type: followingInProgress_type, followingStatus, userId })
 
-export const followAPIthunkCreator = (userID) => {
-  return (dispatch) => {
-    dispatch(followingInProgressSwitch(true, userID));
-    ContactsAPI.unfollow(userID)
-     .then(
-   (response) => { if (response.data.resultCode == 0) {
-     dispatch(UnFollow(userID))
+
+const followUnfollowSwitch = async (dispatch, userID, APImethod, actionCreator ) => {
+  dispatch(followingInProgressSwitch(true, userID));
+    let response = await(APImethod(userID));
+     if (response.data.resultCode == 0) {
+     dispatch(actionCreator)
      dispatch(followingInProgressSwitch(false, userID));
+     }
+  }
+
+export const followAPIthunkCreator = (userID) => {
+  return async (dispatch) => {
+    let APImethod = ContactsAPI.unfollow.bind(ContactsAPI);
+    let actionCreator = UnFollow(userID);
+    followUnfollowSwitch(dispatch, userID, APImethod, actionCreator)
    }
-   })
+  }
+
+export const unfollowAPIthunkCreator = (userID) => {
+  return async (dispatch) => {
+    let APImethod = ContactsAPI.follow.bind(ContactsAPI)
+    let actionCreator = Follow(userID);
+    followUnfollowSwitch(dispatch, userID, APImethod, actionCreator)
   }
 }
 
 export const getUsersAPIthunkCreator = (CurrentPage, PageSize) => {
-  return (dispatch) => {
-    // dispatch(isFetchingSwitch(true));
-      // axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${CurrentPage}&count=${PageSize}`,{
-      //   withCredentials : true
-      // }).then( 
-      // (response) => {dispatch(SetUsers(response.data.items));
-      // dispatch(isFetchingSwitch(false))
-      // })
+  return async(dispatch) => {
       dispatch(isFetchingSwitch(true));
-      ContactsAPI.getUsers(CurrentPage, PageSize).then( 
-      (response) => {dispatch(SetUsers(response));
+      let response = await(ContactsAPI.getUsers(CurrentPage, PageSize));
+      dispatch(SetUsers(response));
       dispatch(isFetchingSwitch(false))
-      })
-  } 
+      }
 };
+
 

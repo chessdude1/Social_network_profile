@@ -1,5 +1,5 @@
 import { connect } from "react-redux"
-import {getUsersAPIthunkCreator, ChangeCurrentPage, Follow, isFetchingSwitch, SetUsers, UnFollow, followingInProgressSwitch, followAPIthunkCreator } from "../../redux/Contacts_messages_reducer"
+import {getUsersAPIthunkCreator, ChangeCurrentPage, Follow, isFetchingSwitch, SetUsers, UnFollow, followingInProgressSwitch, followAPIthunkCreator, unfollowAPIthunkCreator } from "../../redux/Contacts_messages_reducer"
 import Contacts_messagesC from './Contacts_messagesC'
 import React from "react";
 import Preloader from "../../common/preloader";
@@ -25,9 +25,9 @@ class Contacts_messagesAPI extends React.Component {
     } 
   
     render() {
-      if (!this.props.AuthStatus) {
-        return (<Redirect to={'/Login'}/>)
-      }
+      // if (!this.props.AuthStatus) {
+      //   return (<Redirect to={'/Login'}/>)
+      // }
       return<>
       {this.props.isFetching ? <Preloader/>: <p>I work</p>}
       <Contacts_messagesC totalCount={this.props.totalCount} 
@@ -40,7 +40,8 @@ class Contacts_messagesAPI extends React.Component {
           followingInProgressSwitch={this.props.followingInProgressSwitch}
           follow={this.props.followAPIthunkCreator}
           AuthStatus={this.props.AuthStatus}
-          OnPageChanged={this.OnPageChanged} />
+          OnPageChanged={this.OnPageChanged}
+          unfolloww = {this.props.unfollowAPIthunkCreator} />
           </>
       }
   }
@@ -60,7 +61,7 @@ let mapStateToProps = (state) => {
 
 export default compose (
   connect(mapStateToProps, { Follow, UnFollow, SetUsers, 
-    ChangeCurrentPage, isFetchingSwitch, followingInProgressSwitch, getUsersAPIthunkCreator, followAPIthunkCreator}),
+    ChangeCurrentPage, isFetchingSwitch, followingInProgressSwitch, getUsersAPIthunkCreator, followAPIthunkCreator, unfollowAPIthunkCreator}),
   withAuthRedirectComponent
 )
 (Contacts_messagesAPI)

@@ -1,14 +1,14 @@
 import { stopSubmit } from "redux-form";
 import { AuthAPI } from "../../api/api";
 
-const SetAuthData = 'SetAuthData';
+const SetAuthData = 'auth_reducer/SetAuthData';
 
 
 let initial_state = {
    userId : null,
    email : null,
    login: null,
-   isAuth: false
+   isAuth: false 
 };
 
 export const Auth_reducer = (state = initial_state, action) => {
@@ -27,15 +27,12 @@ export const Auth_reducer = (state = initial_state, action) => {
 
 export const SetAuthUserData = (userId, email, login, isAuth) => ({ type: SetAuthData, data: {userId, email, login, isAuth} });
 
-export const getAuthUserDataThunkCreator = () => (dispatch) => {
-    return (AuthAPI.getLoginData()
-     .then(
-   (response) => { 
+export const getAuthUserDataThunkCreator = () => async (dispatch) => {
+    let response = await AuthAPI.getLoginData();    
      if (response.data.resultCode == 0) {
      let {id, login, email} = response.data.data
     dispatch(SetAuthUserData(id, login, email, true))
    }
-   }))
 }
 
 export const LoginThunkCreator = (id, login, email) => {
