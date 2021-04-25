@@ -2,12 +2,13 @@ import "./App.css";
 import React from "react";
 import { render } from "@testing-library/react";
 import LeftBar from "../LeftBar/LefBar";
-import Main_content_block from "../MainContentBlock/MainContentBlock";
 import { BrowserRouter, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { compose } from "redux";
 import { initializedApp } from "../redux/app_reducer";
 import Preloader from "../common/preloader";
+import Main_content_block from "../MainContentBlock/MainContentBlock";
+
 
 class App extends React.Component {
   componentDidMount() {
@@ -21,7 +22,7 @@ class App extends React.Component {
       <BrowserRouter>
         <div className="wrapper">
           <LeftBar />
-          <Main_content_block state={this.props.state} dispatch={this.props.dispatch} />
+            <Main_content_block state={this.props.state} dispatch={this.props.dispatch} />
         </div>
       </BrowserRouter>
     );
