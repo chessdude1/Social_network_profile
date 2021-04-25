@@ -41,7 +41,6 @@ export const Login = (props) => {
     }
 
     if (props.isAuth) {
-        debugger
         return (<Redirect to={'/Profile/'} />)
     }
 

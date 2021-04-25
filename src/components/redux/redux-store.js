@@ -7,6 +7,7 @@ import { Auth_reducer } from "./auth_reducer";
 import thunkMiddleware from 'redux-thunk';
 import {reducer as formReducer} from 'redux-form';
 import { AppReducer } from "./app_reducer";
+import { composeWithDevTools } from 'redux-devtools-extension';
 
 let reducers = combineReducers({
     Messages_page:   Messages_reducer,
@@ -18,7 +19,9 @@ let reducers = combineReducers({
     form : formReducer
 });
 
-let store = createStore(reducers, applyMiddleware(thunkMiddleware));
+const store = createStore(reducers, composeWithDevTools(
+    applyMiddleware(thunkMiddleware),
+  ));
 
 export default store;
 window.store = store;
