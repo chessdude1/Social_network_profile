@@ -9,3 +9,9 @@
     display: block;
     padding-bottom: 20px
   }
+
+  .profilePicture {
+    border-radius: 30px;
+    width: 15%;
+    height: 15%;
+  }

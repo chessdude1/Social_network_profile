@@ -2,7 +2,7 @@ import React from "react";
 import Profile from './Profile'
 import axios from "axios";
 import { connect } from "react-redux";
-import {getStatus, SetUserProfile, updateStatus} from '../redux/Profile_Page_reducer'
+import {getStatus, SetUserProfile, updateStatus, SavePhoto} from '../redux/Profile_Page_reducer'
 import { withRouter } from "react-router";
 import {ProfileAPI} from '../../api/api'
 import { compose } from "redux";
@@ -26,6 +26,7 @@ class Profile_ContainerAPI extends React.Component {
             Status = {this.props.status}
             updateStatus = {this.props.updateStatus}
             isAuth = {this.props.isAuth}
+            SavePhoto = {this.props.SavePhoto}
             />)
         }
 }
@@ -40,7 +41,7 @@ let mapStateToProps = (state) => ({
 })
 
 export default compose(
-    connect(mapStateToProps, {SetUserProfile, getStatus, updateStatus}),
+    connect(mapStateToProps, {SetUserProfile, getStatus, updateStatus, SavePhoto}),
     withRouter   
 )
 (Profile_ContainerAPI)
