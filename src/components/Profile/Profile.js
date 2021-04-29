@@ -4,34 +4,32 @@ import wall_profile from "../../img/wall_profile.jpg";
 import cat_profile from "../../img/cat_profile.jpg";
 import StatusWithHooks from "./status/statusWithHooks";
 import { Redirect } from "react-router";
-import React from "react";
+import React, { useState } from "react";
 import userEmpty from "../../img/userEmpty.png";
 
-class Profile extends React.Component {
-  shouldComponentUpdate(nextProps, nextState) {
-    return nextProps != this.props || nextState != this.State;
-  }
-  render() {
+const Profile = (props) => {
     const MainPhotoSelected = (e) => {
       if (e.target.files.length) {
-        this.props.SavePhoto(e.target.files[0])
+        props.SavePhoto(e.target.files[0])
       }
     }
+    const [editMode, setEditMode] = useState(false)
     return (
       <div className="ProfileWrapper">
         <img src={wall_profile} className="wall_profile"></img>
         <div className="Profile_header">
           <div className="Profile_logo">
-            <img
-              src={this.props.ProfileSmallPhoto || userEmpty}
+          <img
+              src={props.ProfileSmallPhoto || userEmpty}
               className="profilePicture"
             ></img>
-            <div>{this.props.isAuth && <input type="file" onChange={MainPhotoSelected}></input>}</div>
-            <p>{this.props.ProfileFullName}</p>
-            <p>{this.props.ProfileAboutMe}</p>
+            <div>{props.isAuth && <input type="file" onChange={MainPhotoSelected}></input>}</div>
+            <p>{props.ProfileFullName}</p>
+            <p>{props.ProfileAboutMe}</p>
+            {editMode ? <ProfileForm goToEditMode={() => {setEditMode(false)} } /> : <ProfileLocal goToEditMode={() => {setEditMode(true)}} profile={props.profile}/>} 
             <StatusWithHooks
-              status={this.props.Status}
-              updateStatus={this.props.updateStatus}
+              status={props.Status}
+              updateStatus={props.updateStatus}
             />
           </div>
           <div className="Profile_name">
@@ -59,6 +57,45 @@ class Profile extends React.Component {
       </div>
     );
   }
+
+const Contact = ({contactTitle, contactValue}) => {
+  return (<div>
+    <b>{contactTitle}</b> : {contactValue}
+  </div>)
 }
+
+
+const ProfileLocal = (props) => {
+  return (
+    <div>
+            <button onClick={props.goToEditMode}>Change</button>
+            <div>
+              Looking for a job: {props.profile.lookingForAJob ? "yes" : "no"}
+            </div>
+            { props.lookingForAJob && <div> 
+              <b> My professional skills</b> : {props.profile.lookingForAJobDescription}
+            </div> }
+            <div>
+              <b>Contacts</b> : {Object.keys(props.profile.contacts).map(key => {
+                return (
+                <Contact key ={key} contactTitle={key} contactValue={props.profile.contacts[key]}/>)
+              })}
+              </div>      
+    </div>
+  )
+}
+
+const ProfileForm = (props) => {
+  return (
+    <div>
+            <button onClick={props.goToEditMode}>Change</button>
+            <div>
+             <h1>FORM</h1>
+              </div>      
+    </div>
+  )
+}
+
+
 
 export default Profile;

@@ -18,6 +18,8 @@ class Profile_ContainerAPI extends React.Component {
 
         ProfileAPI.CurrentProfile(CurrentUserID).then(response => {this.props.SetUserProfile(response)})
     }
+
+    
     render() {
 
         return(<Profile ProfileAboutMe={this.props.ProfileAboutMe} 
@@ -27,6 +29,7 @@ class Profile_ContainerAPI extends React.Component {
             updateStatus = {this.props.updateStatus}
             isAuth = {this.props.isAuth}
             SavePhoto = {this.props.SavePhoto}
+            profile = {this.props.profile}
             />)
         }
 }
@@ -37,7 +40,8 @@ let mapStateToProps = (state) => ({
     ProfileFullName : state.Profile_page.Profile.fullName,
     status : state.Profile_page.status,
     isAuth : state.Auth.isAuth,
-    AuthLogin : state.Auth.userId
+    AuthLogin : state.Auth.userId,
+    profile : state.Profile_page.Profile
 })
 
 export default compose(

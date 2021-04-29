@@ -5,7 +5,17 @@ const SetStatus ="SetStatus";
 const SavePhotos = "SavePhotos";
 
 let initial_state = {
-  Profile: {photos : 
+  Profile: {contacts : {
+    facebook: null,
+    website: null,
+    vk: null,
+    twitter: null,
+    instagram: null,
+    youtube: null,
+    github: null,
+    mainLink: null
+  },
+    photos : 
     {ProfileSmallPhoto : "https://social-network.samuraijs.com/activecontent/images/users/2/user-small.jpg?v=0"}},
     status : '---'
 };
@@ -49,7 +59,6 @@ export const updateStatus = (status) => (dispatch) => {
 }
 
 export const SavePhoto = (photo) => async(dispatch) => {
-  debugger
   let response = await(ProfileAPI.savePhotoAPI(photo))
     if (response.data.resultCode == 0) {
       dispatch(SavePhotoSuccess(response.data.data.photos))
