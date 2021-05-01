@@ -1,0 +1,5 @@
+.textError {
+    font-size: large;
+    border: orangered 2px solid;
+    color: red
+}

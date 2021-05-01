@@ -6,8 +6,13 @@ import StatusWithHooks from "./status/statusWithHooks";
 import { Redirect } from "react-router";
 import React, { useState } from "react";
 import userEmpty from "../../img/userEmpty.png";
+import ProfileReduxForm from "./Form/ProfileForm";
 
 const Profile = (props) => {
+  const onSubmit = (formData) => {
+    props.SaveProfile(formData)
+    // setEditMode(false)
+  }
     const MainPhotoSelected = (e) => {
       if (e.target.files.length) {
         props.SavePhoto(e.target.files[0])
@@ -26,7 +31,7 @@ const Profile = (props) => {
             <div>{props.isAuth && <input type="file" onChange={MainPhotoSelected}></input>}</div>
             <p>{props.ProfileFullName}</p>
             <p>{props.ProfileAboutMe}</p>
-            {editMode ? <ProfileForm goToEditMode={() => {setEditMode(false)} } /> : <ProfileLocal goToEditMode={() => {setEditMode(true)}} profile={props.profile}/>} 
+            {editMode ? <ProfileReduxForm goToEditMode={() => {setEditMode(false)}} initialValues={props.profile} onSubmit={onSubmit} profile={props.profile}/> : <ProfileLocal goToEditMode={() => {setEditMode(true)}} profile={props.profile}/>} 
             <StatusWithHooks
               status={props.Status}
               updateStatus={props.updateStatus}
@@ -65,6 +70,7 @@ const Contact = ({contactTitle, contactValue}) => {
 }
 
 
+
 const ProfileLocal = (props) => {
   return (
     <div>
@@ -80,17 +86,6 @@ const ProfileLocal = (props) => {
                 return (
                 <Contact key ={key} contactTitle={key} contactValue={props.profile.contacts[key]}/>)
               })}
-              </div>      
-    </div>
-  )
-}
-
-const ProfileForm = (props) => {
-  return (
-    <div>
-            <button onClick={props.goToEditMode}>Change</button>
-            <div>
-             <h1>FORM</h1>
               </div>      
     </div>
   )

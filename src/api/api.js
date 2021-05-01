@@ -29,6 +29,9 @@ export const ProfileAPI = {
       }
     });
   },
+  SaveProfiles(profile) {
+    return instance.put(`profile`, profile); 
+  }
 };
 
 export const ContactsAPI = {
