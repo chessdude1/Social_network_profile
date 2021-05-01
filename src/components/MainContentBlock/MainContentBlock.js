@@ -1,4 +1,4 @@
-import { Route, Router } from "react-router"
+import { Redirect, Route, Router } from "react-router"
 import { BrowserRouter } from "react-router-dom"
 import React, { Suspense } from "react";
 import Header_container from "../Header/Header_container"
@@ -21,10 +21,8 @@ const Main_content_block = (props) => {
     return (
           <div class="Main_content_block">
             <Header_container/>
-            <Route path='/Login' render={() => <LoginContainer/>}/>
-            {/* <Suspense fallback='loading...'>
-                <Route path='/Profile/:userID?' render={() => <Profile_Container state={props.state} dispatch={props.dispatch}/>}/>
-            </Suspense> */}
+                <Route exact path='/' render={()=> <Redirect to={'/Profile'}/>}/>
+                <Route path='/Login' render={() => <LoginContainer/>}/>
                 <Route path='/Profile/:userID?' render={() => ReactLazyHOC(Profile_Container)}/>
             <Route path='/Messages' render={() => <Messages_Container Messages_Page_Data={props.state.Messages_page} dispatch={props.dispatch} />}/>
             <Route path='/contact_messages' render={() => <Contact_messages_container />}/>

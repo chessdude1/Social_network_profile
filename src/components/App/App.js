@@ -11,9 +11,18 @@ import Main_content_block from "../MainContentBlock/MainContentBlock";
 
 
 class App extends React.Component {
+  promiseRejectionEvent = () => {
+    alert('Some error')
+  }
+
   componentDidMount() {
-    this.props.initializedApp()
+    this.props.initializedApp();
+    window.addEventListener("unhandledrejection", this.promiseRejectionEvent);
 }
+
+  componentWillUnmount() {
+    window.removeEventListener("unhandledrejection", this.promiseRejectionEvent);
+  }
   render() {
     if (!this.props.initialStatus) {
       return (<Preloader/>)
