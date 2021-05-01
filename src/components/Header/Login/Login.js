@@ -23,6 +23,12 @@ const LoginForm = (props) => {
         {props.error && <div className ='textError'>
             {props.error}
         </div>}
+        <div>
+        {props.captchaURL && <img src={props.captchaURL}></img>}
+        </div>
+        <div>
+        {props.captchaURL && <Field placeholder={'Enter symbols'} component={'input'} name={'captcha'} ></Field>}
+        </div>
              <button>Login</button>
          </div>
      </form>)
@@ -37,7 +43,7 @@ const LoginReduxForm = reduxForm({
 
 export const Login = (props) => {
     const onSubmit = (formData) => {
-        props.LoginThunkCreator(formData.email, formData.password, formData.rememberMe)
+        props.LoginThunkCreator(formData.email, formData.password, formData.rememberMe, formData.captcha)
     }
 
     if (props.isAuth) {
@@ -46,7 +52,7 @@ export const Login = (props) => {
 
     return( <div>
         <h1>LOGIN</h1>
-        <LoginReduxForm onSubmit={onSubmit}/>
+        <LoginReduxForm onSubmit={onSubmit} captchaURL={props.captchaURL}/>
         </div>
     )
 }

@@ -5,7 +5,8 @@ import {LoginThunkCreator} from '../../redux/auth_reducer'
 let mapStateToProps = (state) => {
     return {
         userEmail : state.Auth.email,
-        isAuth : state.Auth.isAuth
+        isAuth : state.Auth.isAuth,
+        captchaURL : state.Auth.captchaUrl
     }
 }
 

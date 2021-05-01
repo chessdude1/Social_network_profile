@@ -1,19 +1,22 @@
 import { stopSubmit } from "redux-form";
-import { AuthAPI } from "../../api/api";
+import { AuthAPI, SecurityAPI } from "../../api/api";
 
 const SetAuthData = 'auth_reducer/SetAuthData';
-
+const GetCaptchaUrlSuccess = 'GetCaptchaUrlSuccess'
 
 let initial_state = {
    userId : null,
    email : null,
    login: null,
-   isAuth: false 
+   isAuth: false,
+   captchaUrl: null 
 };
 
 export const Auth_reducer = (state = initial_state, action) => {
   switch (action.type) {
+      case GetCaptchaUrlSuccess:
       case SetAuthData:
+        debugger
           return {
               ...state,
               ...action.data,
@@ -26,6 +29,7 @@ export const Auth_reducer = (state = initial_state, action) => {
 };
 
 export const SetAuthUserData = (userId, email, login, isAuth) => ({ type: SetAuthData, data: {userId, email, login, isAuth} });
+export const CaptchaURLSuccess = (captchaUrl) => ({ type: GetCaptchaUrlSuccess, data: {captchaUrl} });
 
 export const getAuthUserDataThunkCreator = () => async (dispatch) => {
     let response = await AuthAPI.getLoginData();    
@@ -35,11 +39,14 @@ export const getAuthUserDataThunkCreator = () => async (dispatch) => {
    }
 }
 
-export const LoginThunkCreator = (id, login, email) => {
+export const LoginThunkCreator = (id, login, email, captcha) => {
   return (dispatch) => {
-    AuthAPI.login(id, login, email).then(response => {
+    AuthAPI.login(id, login, email, captcha).then(response => {
       if (response.data.resultCode == 0) {
         dispatch(getAuthUserDataThunkCreator())
+      }
+      else if (response.data.resultCode == 10) {
+        dispatch(getCaptchaURL())
       }
       else     
       dispatch(stopSubmit ('login', {_error: response.data.messages[0]}))
@@ -56,4 +63,12 @@ export const LogoutThunkCreator = () => {
      })
   }
 }
+
+export const getCaptchaURL = () => async (dispatch) => {
+  debugger
+  const response = await(SecurityAPI.getCaptchaUrl());
+  const captchaUrl = response.data.url;
+  dispatch(CaptchaURLSuccess(captchaUrl))
+}
+
 
