@@ -2,12 +2,14 @@ const AddTextProfilePage = "AddTextProfilePage";
 const ChangeProfilePageText = "ChangeProfilePageText";
 
 let initial_state = {
-  Experience_post_description: [],
-
+  Experience_post_description: [] as any,
+  CurrentText : '' as string
 };
 
+export type initial_state_type = typeof initial_state
 
-const Experience_post_reducer = (state = initial_state, action) => {
+
+const Experience_post_reducer = (state = initial_state, action : any) : initial_state_type => {
   switch (action.type) {
     case ChangeProfilePageText:
       return { 
@@ -31,14 +33,23 @@ const Experience_post_reducer = (state = initial_state, action) => {
   }
 };
 
-export const ChProfilePageText = (textProfilePage) => {
+export type ChProfilePageText_type = {
+  type : typeof ChangeProfilePageText,
+  CurrentProfilePageText : string
+}
+
+export type Return_MessageText_type = {
+  type : typeof AddTextProfilePage
+}
+
+export const ChProfilePageText = (textProfilePage : string) :  ChProfilePageText_type => {
   return {
     type: ChangeProfilePageText,
     CurrentProfilePageText: textProfilePage,
   };
 };
 
-export const Return_MessageText = () => {
+export const Return_MessageText = () : Return_MessageText_type  => {
   return { type: AddTextProfilePage };
 };
 

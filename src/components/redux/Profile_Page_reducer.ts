@@ -7,7 +7,8 @@ const SavePhotos = "SavePhotos";
 
 
 let initial_state = {
-  Profile: {contacts : {
+  Profile: {
+      contacts : {
     facebook: null,
     website: null,
     vk: null,
@@ -18,11 +19,14 @@ let initial_state = {
     mainLink: null
   },
     photos : 
-    {ProfileSmallPhoto : "https://social-network.samuraijs.com/activecontent/images/users/2/user-small.jpg?v=0"}},
+      {ProfileSmallPhoto : "https://social-network.samuraijs.com/activecontent/images/users/2/user-small.jpg?v=0"}
+          },
     status : '---'
 };
 
-export const Profile_reducer = (state = initial_state, action) => {
+export type initial_state_Profile_reducer = typeof initial_state
+
+export const Profile_reducer = (state = initial_state, action : any) : initial_state_Profile_reducer => {
   switch (action.type) {
     case SetUserProfileChange:
       return {
@@ -30,7 +34,7 @@ export const Profile_reducer = (state = initial_state, action) => {
         Profile: action.profileData,
       };
       case SavePhotos:
-        return {...state, profile : {...state.profile, photos: action.photo}}
+        return {...state, Profile : {...state.Profile, photos: action.photo}}
     case SetStatus:
       return {
         ...state,
@@ -41,18 +45,18 @@ export const Profile_reducer = (state = initial_state, action) => {
   }
 };
 
-export const SetUserProfile = (profileData) => ({type: SetUserProfileChange, profileData})
-export const SetUserStatus = (status) => ({type: SetStatus, status})
-export const SavePhotoSuccess = (photo) => ({type: SavePhotos, photo})
+export const SetUserProfile = (profileData : any) => ({type: SetUserProfileChange, profileData})
+export const SetUserStatus = (status : any) => ({type: SetStatus, status})
+export const SavePhotoSuccess = (photo : any) => ({type: SavePhotos, photo})
 
 
-export const getStatus = (userId) => (dispatch) => {
+export const getStatus = (userId : number) => (dispatch : any) => {
   ProfileAPI.getUserStatus(userId).then(response => {
     dispatch(SetUserStatus(response.data))
   })
 }
 
-export const updateStatus = (status) => (dispatch) => {
+export const updateStatus = (status : any) => (dispatch : any) => {
   ProfileAPI.updateStatus(status).then(response => {
     if (response.data.resultCode == 0) {
       dispatch(SetUserStatus(status))
@@ -60,18 +64,18 @@ export const updateStatus = (status) => (dispatch) => {
   })
 }
 
-export const SavePhoto = (photo) => async(dispatch) => {
+export const SavePhoto = (photo : any) => async(dispatch : any) => {
   let response = await(ProfileAPI.savePhotoAPI(photo))
     if (response.data.resultCode == 0) {
       dispatch(SavePhotoSuccess(response.data.data.photos))
     }
 }
-export const getUserProfile = (userId) => async (dispatch) => {
+export const getUserProfile = (userId : number) => async (dispatch : any) => {
   const response = await(ProfileAPI.CurrentProfile(userId));
   dispatch(SetUserProfile(response))
 }
 
-export const SaveProfile = (profile) => async(dispatch, getState) => {
+export const SaveProfile = (profile : any) => async(dispatch : any, getState : any) => {
   const userId = getState().Auth.userId 
   let response = await(ProfileAPI.SaveProfiles(profile))
     if (response.data.resultCode == 0) {
