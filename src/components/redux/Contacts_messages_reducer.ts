@@ -1,5 +1,5 @@
 import axios from "axios";
-import { ContactsAPI } from "../../api/api";
+import { ContactsAPI, ResultCodesEnum } from "../../api/api";
 import { updateObjectInArray } from "../../utilites/object-helpers";
 
 
@@ -100,7 +100,7 @@ export const followingInProgressSwitch = (followingStatus : boolean, userId : nu
 const followUnfollowSwitch = async (dispatch : any, userID: number, APImethod : any, actionCreator : any ) => {
   dispatch(followingInProgressSwitch(true, userID));
     let response = await(APImethod(userID));
-     if (response.data.resultCode == 0) {
+     if (response.data.resultCode == ResultCodesEnum.Success) {
      dispatch(actionCreator)
      dispatch(followingInProgressSwitch(false, userID));
      }

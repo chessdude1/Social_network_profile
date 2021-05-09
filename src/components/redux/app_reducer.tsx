@@ -23,7 +23,7 @@ export const AppReducer = (state: InitialType = initial_state, action: any) : In
 };
 
 export type InitializedSwitchType = {
-  type : typeof InitializedSuccess // "InitializedSuccess" //
+  type : typeof InitializedSuccess 
 }
 export const InitializedSwitch = () : InitializedSwitchType  => ({type: InitializedSuccess})
 

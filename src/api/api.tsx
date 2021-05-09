@@ -8,19 +8,28 @@ const instance = axios.create({
   },
 });
 
+export enum ResultCodesEnum {
+  Success = 0,
+  Error = 1
+}
+
+export enum ResultCodesEnumForCaptcha {
+    CaptchaIsRequired = 10,
+}
+
 export const ProfileAPI = {
-  CurrentProfile(CurrentUserID) {
+  CurrentProfile(CurrentUserID : number) {
     return instance.get(`profile/` + CurrentUserID).then((response) => {
       return response.data;
     });
   },
-  getUserStatus(userID) {
+  getUserStatus(userID : number) {
     return instance.get(`profile/status/` + userID);
   },
-  updateStatus(status) {
+  updateStatus(status : string) {
     return instance.put(`profile/status`, { status: status });
   },
-  savePhotoAPI(photoFile) {
+  savePhotoAPI(photoFile : any) {
     const formData = new FormData();
     formData.append('image', photoFile)
     return instance.put(`profile/photo/`, formData, {
@@ -29,36 +38,46 @@ export const ProfileAPI = {
       }
     });
   },
-  SaveProfiles(profile) {
+  SaveProfiles(profile : any) {
     return instance.put(`profile`, profile); 
   }
 };
 
 export const ContactsAPI = {
-  getUsers(CurrentPage, PageSize) {
+  getUsers(CurrentPage : number, PageSize : number) {
     return instance
       .get(`users?page=${CurrentPage}&count=${PageSize}`)
       .then((response) => {
         return response.data.items;
       });
   },
-  unfollow(userID) {
+  unfollow(userID : number) {
     return instance.delete(`follow/${userID}`).then((response) => {
       return response;
     });
   },
-  follow(userID) {
+  follow(userID : number) {
     return instance.post(`follow/${userID}`, {}).then((response) => {
       return response;
     });
   },
 };
 
+type getLoginDataType = {
+  data : {
+    id: number
+    email: string
+    login: string
+  }
+  resultCode : ResultCodesEnum | ResultCodesEnumForCaptcha
+  messages : Array<string>
+}
+
 export const AuthAPI = {
   getLoginData() {
-    return instance.get(`auth/me`);
+    return instance.get<getLoginDataType>(`auth/me`).then(response => response.data);
   },
-  login(email, password, rememberMe = false, captcha = null) {
+  login(email : number, password : string, rememberMe = false, captcha: null | string = null) {
     return instance.post(`auth/login`, { email, password, rememberMe, captcha });
   },
   logOut() {

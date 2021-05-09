@@ -1,4 +1,4 @@
-import { ProfileAPI } from "../../api/api";
+import { ProfileAPI, ResultCodesEnum } from "../../api/api";
 import { stopSubmit } from "redux-form";
 
 const SetUserProfileChange = "SetUserProfileChange";
@@ -62,7 +62,7 @@ export const getStatus = (userId : number) => (dispatch : any) => {
 
 export const updateStatus = (status : any) => (dispatch : any) => {
   ProfileAPI.updateStatus(status).then(response => {
-    if (response.data.resultCode == 0) {
+    if (response.data.resultCode == ResultCodesEnum.Success) {
       dispatch(SetUserStatus(status))
     }
   })
@@ -70,7 +70,7 @@ export const updateStatus = (status : any) => (dispatch : any) => {
 
 export const SavePhoto = (photo : any) => async(dispatch : any) => {
   let response = await(ProfileAPI.savePhotoAPI(photo))
-    if (response.data.resultCode == 0) {
+    if (response.data.resultCode == ResultCodesEnum.Success) {
       dispatch(SavePhotoSuccess(response.data.data.photos))
     }
 }
@@ -82,7 +82,7 @@ export const getUserProfile = (userId : number) => async (dispatch : any) => {
 export const SaveProfile = (profile : any) => async(dispatch : any, getState : any) => {
   const userId = getState().Auth.userId 
   let response = await(ProfileAPI.SaveProfiles(profile))
-    if (response.data.resultCode == 0) {
+    if (response.data.resultCode == ResultCodesEnum.Success) {
       dispatch(getUserProfile(userId))
     }
     else {   
