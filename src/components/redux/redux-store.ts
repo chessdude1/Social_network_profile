@@ -23,5 +23,13 @@ const store = createStore(reducers, composeWithDevTools(
     applyMiddleware(thunkMiddleware),
   ));
 
+type RootReducer = typeof reducers;
+export type AppStateType = ReturnType<RootReducer>;
+
 export default store;
+//@ts-ignore
 window.store = store;
+
+
+
+

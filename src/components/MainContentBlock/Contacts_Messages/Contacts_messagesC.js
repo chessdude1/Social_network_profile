@@ -7,18 +7,8 @@ import { Paginator } from '../../common/paginator/paginator';
 
 
 const Contacts_messagesC= (props) => {
-    // let pages = [];
-    // let PagesCount = Math.ceil(props.totalCount / props.PageSize);
-    // for (let i=1; i <= PagesCount; i++) {
-    //   pages.push(i)
-    // }
     return (
       <div>
-        {/* <div>
-          {pages.map(p => {
-            return(<button className={p === props.CurrentPage && styles.selectedPage} onClick={()=>{props.OnPageChanged(p)}}>{p}</button>)
-          })}
-        </div> */}
         <Paginator CurrentPage={props.CurrentPage} totalCount={props.totalCount} PageSize={props.PageSize} OnPageChanged={props.OnPageChanged} />
         {props.Contacts_messages.map((u) => (
           <div>

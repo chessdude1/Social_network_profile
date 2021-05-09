@@ -3,12 +3,13 @@ import React from "react";
 import Experience_post from "./Experience_post";
 import { connect } from "react-redux";
 import { ChProfilePageText, Return_MessageText } from "../../../redux/Experience_post_reducer";
+import { AppStateType } from "../../../redux/redux-store";
 
 
 
-let mapStateToProps = (state) => {
+let mapStateToProps = (state : AppStateType) => {
   return {
-    Experience_post : state.Experience_post,
+    Experience_post : state.Experience_post.Experience_post_description,
   }
 }
 

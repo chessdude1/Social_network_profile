@@ -6,9 +6,19 @@ import { InputExperience } from "../../../common/FormsControl";
 
 const maxLength = maxLengthCreator(50)
 
-const Experience_post_form = (props) => {
+type Experience_post_form_props_type = {
+  handleSubmit : any
+}
+
+type Experience_post_props_type = {
+  Experience_post : any,
+  ChProfilePageText : (values : string) => void,
+  Return_MessageText : () => void,
+}
+
+const Experience_post_form : React.FC<Experience_post_form_props_type> = ({handleSubmit}) => {
   return (
-    <form onSubmit={props.handleSubmit}>
+    <form onSubmit={handleSubmit}>
       <Field
         placeholder={"Write your experience"}
         validate = {[required, maxLength]}
@@ -26,11 +36,11 @@ const AddPostReduxForm = reduxForm({ form: "ExperienceForm" })(
   Experience_post_form
 );
 
-const Experience_post = (props) => {
-  let AllPostOnWall = props.Experience_post.Experience_post_description.map(
-    (messages) => messages.text
+const Experience_post : React.FC<Experience_post_props_type> = (props) => {
+  let AllPostOnWall = props.Experience_post.map(
+    (messages : any) => messages.text
   );
-  let AddNewExperience = (values) => {
+  let AddNewExperience = (values : any) => {
     props.ChProfilePageText(values.ExperienceForm);
     props.Return_MessageText();
   };
@@ -40,7 +50,7 @@ const Experience_post = (props) => {
       <div className="Experience_post_pic"></div>
       <div className="Experience_post_description">
         <AddPostReduxForm onSubmit={AddNewExperience} />
-        {props.Experience_post.Experience_post_description.map((u) => {
+        {props.Experience_post.map((u : any) => {
           return <div>{u.text}</div>;
         })}
       </div>

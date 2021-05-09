@@ -8,6 +8,8 @@ const SavePhotos = "SavePhotos";
 
 let initial_state = {
   Profile: {
+    fullName : '',
+    aboutMe : '',
       contacts : {
     facebook: null,
     website: null,
@@ -18,8 +20,10 @@ let initial_state = {
     github: null,
     mainLink: null
   },
-    photos : 
-      {ProfileSmallPhoto : "https://social-network.samuraijs.com/activecontent/images/users/2/user-small.jpg?v=0"}
+    photos :   
+      { 
+        small : '',
+        ProfileSmallPhoto : "https://social-network.samuraijs.com/activecontent/images/users/2/user-small.jpg?v=0"}
           },
     status : '---'
 };
