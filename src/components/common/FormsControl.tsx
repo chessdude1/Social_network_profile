@@ -1,7 +1,17 @@
 import './FormsControl.css'
-import {Field, reduxForm } from "redux-form"
+import {Field, reduxForm, WrappedFieldInputProps } from "redux-form"
 
-export const Textarea = ({input, meta, ...props}) => {
+type FormControlParamsType = {
+    input : any // WrappedFieldInputProps
+    meta : {
+        touched : boolean,
+        error : string 
+    }
+}
+
+type FormControlType = (params : FormControlParamsType) => React.ReactNode
+
+export const Textarea :  FormControlType = ({input, meta, ...props}) => {
     const hasError = meta.touched && meta.error
     return ( <div >
         <textarea className={hasError && "formControl"} {...input} {...props}> </textarea>
@@ -11,7 +21,7 @@ export const Textarea = ({input, meta, ...props}) => {
     </div>)
 }
 
-export const InputExperience = ({input, meta, ...props}) => {
+export const InputExperience :  FormControlType = ({input, meta, ...props}) => {
     const hasError = meta.touched && meta.error
     return ( <div >
         <textarea className={hasError && "formControl"} {...input} {...props}> </textarea>
@@ -22,7 +32,7 @@ export const InputExperience = ({input, meta, ...props}) => {
 }
 
 
-export const InputLogin = ({input, meta, ...props}) => {
+export const InputLogin :  FormControlType = ({input, meta, ...props}) => {
     const hasError = meta.touched && meta.error
     return ( <div >
         <textarea className={hasError && "formControl"} {...input} {...props}> </textarea>

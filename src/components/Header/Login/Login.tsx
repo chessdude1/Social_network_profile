@@ -1,6 +1,6 @@
 import { connect } from "react-redux"
 import { Redirect } from "react-router"
-import {Field, reduxForm } from "redux-form"
+import {Field, InjectedFormProps, reduxForm } from "redux-form"
 import { maxLengthCreator, required } from "../../../utilites/validators"
 import { InputLogin } from "../../common/FormsControl"
 import {LoginThunkCreator, SetAuthUserData} from '../../redux/auth_reducer'
@@ -8,7 +8,16 @@ import {LoginThunkCreator, SetAuthUserData} from '../../redux/auth_reducer'
 
 const maxlength = maxLengthCreator(100)
 
-const LoginForm = (props) => {
+type ownProps = {
+    captchaURL : string | null
+}
+type LoginFormValuesType = {
+    captcha: string
+    rememberMe: boolean
+    password: string
+    email: string
+}
+const LoginForm: React.FC<InjectedFormProps<LoginFormValuesType, ownProps> & ownProps> = (props) => {
     return( <form onSubmit={props.handleSubmit}>
          <div>
              <Field placeholder={'Login'} name={'email'} validate = {[required, maxlength]} component={InputLogin}></Field>
@@ -37,15 +46,25 @@ const LoginForm = (props) => {
 
 
 
-const LoginReduxForm = reduxForm({
+const LoginReduxForm = reduxForm<LoginFormValuesType, ownProps>({
     form: 'login'
 })(LoginForm)
 
-export const Login = (props) => {
-    const onSubmit = (formData) => {
+type MapStatePropsType = {
+    captchaURL : string | null
+    isAuth : boolean
+    LoginThunkCreator : (email : string, password : string, rememberMe : boolean, captcha : string) => void
+}
+
+type MapDispatchPropsType = {
+    LoginThunkCreator : (email : string, password : string, rememberMe : boolean, captcha : string) => void
+}
+
+export const Login: React.FC<MapStatePropsType > = (props) => {
+    const onSubmit = (formData : any) => {
         props.LoginThunkCreator(formData.email, formData.password, formData.rememberMe, formData.captcha)
     }
-
+    
     if (props.isAuth) {
         return (<Redirect to={'/Profile/'} />)
     }
