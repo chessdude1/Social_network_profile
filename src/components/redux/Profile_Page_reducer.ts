@@ -1,5 +1,6 @@
 import { ProfileAPI, ResultCodesEnum } from "../../api/api";
 import { stopSubmit } from "redux-form";
+import { BaseThunkType, InferActionsTypes } from "./redux-store";
 
 const SetUserProfileChange = "SetUserProfileChange";
 const SetStatus ="SetStatus";
@@ -30,18 +31,21 @@ let initial_state = {
 
 export type initial_state_Profile_reducer = typeof initial_state
 
-export const Profile_reducer = (state = initial_state, action : any) : initial_state_Profile_reducer => {
+export const Profile_reducer = (state = initial_state, action : actionsTypes) : initial_state_Profile_reducer => {
   switch (action.type) {
     case SetUserProfileChange:
       return {
         ...state,
+        //@ts-ignore
         Profile: action.profileData,
       };
       case SavePhotos:
+        //@ts-ignore
         return {...state, Profile : {...state.Profile, photos: action.photo}}
     case SetStatus:
       return {
         ...state,
+        //@ts-ignore
         status : action.status
       }
     default:
@@ -49,9 +53,17 @@ export const Profile_reducer = (state = initial_state, action : any) : initial_s
   }
 };
 
+type actionsTypes = InferActionsTypes<typeof actions_Profile_Page_reducer>
+
+const actions_Profile_Page_reducer = {
+  SetUserProfile : (profileData : any) => ({type: SetUserProfileChange, profileData}),
+  SetUserStatus : (status : any) => ({type: SetStatus, status}),
+  SavePhotoSuccess : (photo : any) => ({type: SavePhotos, photo})
+}
+
 export const SetUserProfile = (profileData : any) => ({type: SetUserProfileChange, profileData})
 export const SetUserStatus = (status : any) => ({type: SetStatus, status})
-export const SavePhotoSuccess = (photo : any) => ({type: SavePhotos, photo})
+export const SavePhotoSuccess = (photo : object) => ({type: SavePhotos, photo})
 
 
 export const getStatus = (userId : number) => (dispatch : any) => {
@@ -60,7 +72,7 @@ export const getStatus = (userId : number) => (dispatch : any) => {
   })
 }
 
-export const updateStatus = (status : any) => (dispatch : any) => {
+export const updateStatus = (status : string) => (dispatch : any) => {
   ProfileAPI.updateStatus(status).then(response => {
     if (response.data.resultCode == ResultCodesEnum.Success) {
       dispatch(SetUserStatus(status))
