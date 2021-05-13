@@ -10,7 +10,6 @@ const Set_users = 'Set_users';
 const Change_CurrentPage = 'Change_CurrentPage';
 const isFetchingSwitch_type ='isFetchingSwitch_type';
 const followingInProgress_type ='followingInProgress_type';
-const SetFilter_type = 'SetFilter_type'
 
 type followingInProgressType = {
   id : number
@@ -20,12 +19,9 @@ let initial_state = {
   users: [] as any,
   totalCount : 45 as number,
   PageSize: 5 as number,
-  CurrentPage: 1 as number,
+  CurrentPage: 8 as number,
   isFetching : false as boolean,
   followingInProgress : [] as Array<followingInProgressType>,
-  filter : {
-    term : ''
-  }
 };
 
 export type initial_state_type = typeof initial_state;
@@ -60,10 +56,6 @@ export const Contacts_messages_reducer = (state = initial_state, action : action
         [...state.followingInProgress, action.userId] :
         //@ts-ignore
         state.followingInProgress.filter(id => id != action.userId)
-      }
-    case SetFilter_type :
-      return {
-        ...state, filter : action.payload
       }
     default:
       return state;
@@ -104,13 +96,12 @@ export type followingInProgressSwitch = {
 type actionsTypes = InferActionsTypes<typeof actions_Contacts_messages_reducer>
 type ThunkType = BaseThunkType<actionsTypes>
 
-export const actions_Contacts_messages_reducer = {
+export let actions_Contacts_messages_reducer = {
       Follow : (userId : number) : Follow_type => ({ type: Follow_change, userId}),
       UnFollow : (userId  : number) : UnFollow_type => ({ type: UnFollow_change, userId }),
       SetUsers : (users  : number) : SetUsers_type => ({type: Set_users, users}),
       ChangeCurrentPage : (CurrentPage  : number) : ChangeCurrentPage_type => ({type: Change_CurrentPage, CurrentPage}),
       isFetchingSwitch : (isFetchingStatus  : boolean) : isFetchingSwitch_type => ({type: isFetchingSwitch_type, isFetchingStatus }),
-      SetFilter : (term : string) : any => ({type: SetFilter_type, payload : {term} }),
       followingInProgressSwitch : (followingStatus : boolean, userId : number) : followingInProgressSwitch => ({type: followingInProgress_type, followingStatus, userId })
 }
 export const Follow = (userId : number) : Follow_type => ({ type: Follow_change, userId});
@@ -119,7 +110,6 @@ export const SetUsers = (users  : number) : SetUsers_type => ({type: Set_users, 
 export const ChangeCurrentPage = (CurrentPage  : number) : ChangeCurrentPage_type => ({type: Change_CurrentPage, CurrentPage});
 export const isFetchingSwitch = (isFetchingStatus  : boolean) : isFetchingSwitch_type => ({type: isFetchingSwitch_type, isFetchingStatus });
 export const followingInProgressSwitch = (followingStatus : boolean, userId : number) : followingInProgressSwitch => ({type: followingInProgress_type, followingStatus, userId })
-export const SetFilter = (term : string) : any => ({type: SetFilter_type, payload : {term} })
 
 const followUnfollowSwitch = async (dispatch : any, userID: number, APImethod : any, actionCreator : any ) => {
   dispatch(actions_Contacts_messages_reducer.followingInProgressSwitch(true, userID));
@@ -146,13 +136,12 @@ export const unfollowAPIthunkCreator = (userID : number) => {
   }
 }
 
-export const getUsersAPIthunkCreator = (CurrentPage : number, PageSize : number, term: string) => {
+export const getUsersAPIthunkCreator = (CurrentPage : number, PageSize : number) => {
   return async(dispatch : any) => {
       dispatch(actions_Contacts_messages_reducer.isFetchingSwitch(true));
-      let response = await(ContactsAPI.getUsers(CurrentPage, PageSize, term));
+      let response = await(ContactsAPI.getUsers(CurrentPage, PageSize));
       //@ts-ignore
-      dispatch(actions_Contacts_messages_reducer.SetUsers(response));
-      dispatch(actions_Contacts_messages_reducer.SetFilter(term));  
+      dispatch(actions_Contacts_messages_reducer.SetUsers(response)); 
       dispatch(actions_Contacts_messages_reducer.isFetchingSwitch(false))
       }
 };

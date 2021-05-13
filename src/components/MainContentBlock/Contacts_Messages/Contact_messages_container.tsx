@@ -5,10 +5,26 @@ import React from "react";
 import Preloader from "../../common/preloader";
 import { withAuthRedirectComponent } from "../../HOC/withAuthRedirect";
 import { compose } from "redux";
-import { GetFollowingStatus, GetContacts_messages, GetPageSize, GetTotalCount, GetCurrentPage, GetIsFetching, GetAuthStatus, GetUsersFilter } from "../../redux/selectors/Contact_messages_reducer";
+import { GetFollowingStatus, GetContacts_messages, GetPageSize, GetTotalCount, GetCurrentPage, GetIsFetching, GetAuthStatus } from "../../redux/selectors/Contact_messages_reducer";
 import { AppStateType } from "../../redux/redux-store";
 
 type Contacts_messages_type = MapDispatchPropsType & MapStatePropsType
+//   CurrentPage : number
+//   PageSize : number
+//   getUsersAPIthunkCreator : (CurrentPage : number, PageSize : number) => void,
+//   ChangeCurrentPage : (e : number) => void,
+//   isFetching : boolean
+//   totalCount : number
+//   Contacts_messages : string
+//   Follow : () => void
+//   followingStatus : boolean
+//   UnFollow : () => void
+//   followingInProgressSwitch : () => void
+//   followAPIthunkCreator : () => void
+//   AuthStatus : boolean
+//   unfollowAPIthunkCreator : () => void
+// }
+
 type MapDispatchPropsType = {
   isFetchingSwitch : (isFetchingStatus : boolean) => void
   SetUsers : (users : any) => void
@@ -18,7 +34,7 @@ type MapDispatchPropsType = {
   followAPIthunkCreator : (userId : number) => void
   Follow : (userId : number) => void
   ChangeCurrentPage : (e : number) => void,
-  getUsersAPIthunkCreator : (CurrentPage : number, PageSize : number, term: string) => void,
+  getUsersAPIthunkCreator : (CurrentPage : number, PageSize : number) => void,
 }
 
 type MapStatePropsType = {
@@ -34,20 +50,18 @@ type MapStatePropsType = {
 
 
 class Contacts_messagesAPI extends React.Component<Contacts_messages_type> {
+    // constructor(props) {  
+    //   super(props);
+    // }
   
     componentDidMount (){
-      this.props.getUsersAPIthunkCreator(this.props.CurrentPage, this.props.PageSize, '')
+      this.props.getUsersAPIthunkCreator(this.props.CurrentPage, this.props.PageSize)
     }
   
     OnPageChanged = (e : number) => {
       this.props.ChangeCurrentPage(e);
-      this.props.getUsersAPIthunkCreator(e, this.props.PageSize, '')
-    }
-    
-    OnFilterChanged = (filter: any) => { //typeof initial_state.filter //
-     const {PageSize} = this.props;
-     this.props.getUsersAPIthunkCreator(1, PageSize, filter)
-    }
+      this.props.getUsersAPIthunkCreator(e, this.props.PageSize)
+    } 
   
     render() {
       return<>
@@ -63,8 +77,7 @@ class Contacts_messagesAPI extends React.Component<Contacts_messages_type> {
           follow={this.props.followAPIthunkCreator}
           AuthStatus={this.props.AuthStatus}
           OnPageChanged={this.OnPageChanged}
-          unfolloww = {this.props.unfollowAPIthunkCreator}
-          OnFilterChanged = {this.OnFilterChanged} />
+          unfolloww = {this.props.unfollowAPIthunkCreator} />
           </>
       }
   }
@@ -78,9 +91,7 @@ let mapStateToProps = (state : any) : MapStatePropsType => {
         PageSize : GetPageSize(state),
         CurrentPage :GetCurrentPage(state),
         isFetching :GetIsFetching(state),
-        AuthStatus : GetAuthStatus(state),
-        //@ts-ignore
-        filter: GetUsersFilter(state)
+        AuthStatus : GetAuthStatus(state)
     }
 }
 
