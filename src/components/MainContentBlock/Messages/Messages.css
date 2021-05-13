@@ -1,0 +1,9 @@
+.Top_messages {
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+
+}
+
+.Messages_wrapper {
+    max-width: 1400px;
+    margin: 0 auto;
+}

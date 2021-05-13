@@ -1,0 +1,12 @@
+header {
+  margin: 0 auto;
+  background-color: burlywood;
+  padding-top: 44px;
+  padding-bottom: 33px;
+  display: flex; }
+
+nav {
+  display: flex;
+  justify-content: space-evenly;
+  padding-left: 7.14286%; 
+  padding-right: 60%;}

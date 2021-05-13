@@ -1,0 +1,10 @@
+.LeftBar {
+  background-color: aquamarine; }
+
+.item {
+  padding-top: 10px; }
+
+.activeButton {
+    color: red;
+    font-size: large
+}
