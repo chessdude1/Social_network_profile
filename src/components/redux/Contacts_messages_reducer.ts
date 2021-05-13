@@ -1,6 +1,7 @@
 import axios from "axios";
 import { ContactsAPI, ResultCodesEnum } from "../../api/api";
 import { updateObjectInArray } from "../../utilites/object-helpers";
+import { BaseThunkType, InferActionsTypes } from "./redux-store";
 
 
 const UnFollow_change = 'UnFollow_change';
@@ -25,7 +26,7 @@ let initial_state = {
 
 export type initial_state_type = typeof initial_state;
 
-export const Contacts_messages_reducer = (state = initial_state, action : any) : initial_state_type => {
+export const Contacts_messages_reducer = (state = initial_state, action : actionsTypes) : initial_state_type => {
   switch (action.type) {
     case isFetchingSwitch_type:
       return {...state,
@@ -33,6 +34,7 @@ export const Contacts_messages_reducer = (state = initial_state, action : any) :
     case Change_CurrentPage:
       return { ...state, CurrentPage: action.CurrentPage}
     case Set_users:
+      //@ts-ignore
       return { ...state, users: [...action.users]
       }
     case Follow_change:
@@ -49,8 +51,10 @@ export const Contacts_messages_reducer = (state = initial_state, action : any) :
     case followingInProgress_type:
       return {
         ...state,
+        //@ts-ignore
         followingInProgress : action.followingStatus ? 
         [...state.followingInProgress, action.userId] :
+        //@ts-ignore
         state.followingInProgress.filter(id => id != action.userId)
       }
     default:
@@ -89,6 +93,17 @@ export type followingInProgressSwitch = {
   userId : number
 }
 
+type actionsTypes = InferActionsTypes<typeof actions_Contacts_messages_reducer>
+type ThunkType = BaseThunkType<actionsTypes>
+
+export let actions_Contacts_messages_reducer = {
+      Follow : (userId : number) : Follow_type => ({ type: Follow_change, userId}),
+      UnFollow : (userId  : number) : UnFollow_type => ({ type: UnFollow_change, userId }),
+      SetUsers : (users  : number) : SetUsers_type => ({type: Set_users, users}),
+      ChangeCurrentPage : (CurrentPage  : number) : ChangeCurrentPage_type => ({type: Change_CurrentPage, CurrentPage}),
+      isFetchingSwitch : (isFetchingStatus  : boolean) : isFetchingSwitch_type => ({type: isFetchingSwitch_type, isFetchingStatus }),
+      followingInProgressSwitch : (followingStatus : boolean, userId : number) : followingInProgressSwitch => ({type: followingInProgress_type, followingStatus, userId })
+}
 export const Follow = (userId : number) : Follow_type => ({ type: Follow_change, userId});
 export const UnFollow = (userId  : number) : UnFollow_type => ({ type: UnFollow_change, userId });
 export const SetUsers = (users  : number) : SetUsers_type => ({type: Set_users, users});
@@ -96,38 +111,38 @@ export const ChangeCurrentPage = (CurrentPage  : number) : ChangeCurrentPage_typ
 export const isFetchingSwitch = (isFetchingStatus  : boolean) : isFetchingSwitch_type => ({type: isFetchingSwitch_type, isFetchingStatus });
 export const followingInProgressSwitch = (followingStatus : boolean, userId : number) : followingInProgressSwitch => ({type: followingInProgress_type, followingStatus, userId })
 
-
 const followUnfollowSwitch = async (dispatch : any, userID: number, APImethod : any, actionCreator : any ) => {
-  dispatch(followingInProgressSwitch(true, userID));
+  dispatch(actions_Contacts_messages_reducer.followingInProgressSwitch(true, userID));
     let response = await(APImethod(userID));
      if (response.data.resultCode == ResultCodesEnum.Success) {
      dispatch(actionCreator)
-     dispatch(followingInProgressSwitch(false, userID));
+     dispatch(actions_Contacts_messages_reducer.followingInProgressSwitch(false, userID));
      }
   }
 
 export const followAPIthunkCreator = (userID : number) => {
-  return async (dispatch : any) => {
+  return async (dispatch : ThunkType) => {
     let APImethod = ContactsAPI.unfollow.bind(ContactsAPI);
-    let actionCreator = UnFollow(userID);
+    let actionCreator = actions_Contacts_messages_reducer.UnFollow(userID);
     followUnfollowSwitch(dispatch, userID, APImethod, actionCreator)
    }
   }
 
 export const unfollowAPIthunkCreator = (userID : number) => {
-  return async (dispatch : any) => {
+  return async (dispatch : ThunkType) => {
     let APImethod = ContactsAPI.follow.bind(ContactsAPI)
-    let actionCreator = Follow(userID);
+    let actionCreator = actions_Contacts_messages_reducer.Follow(userID);
     followUnfollowSwitch(dispatch, userID, APImethod, actionCreator)
   }
 }
 
 export const getUsersAPIthunkCreator = (CurrentPage : number, PageSize : number) => {
   return async(dispatch : any) => {
-      dispatch(isFetchingSwitch(true));
+      dispatch(actions_Contacts_messages_reducer.isFetchingSwitch(true));
       let response = await(ContactsAPI.getUsers(CurrentPage, PageSize));
-      dispatch(SetUsers(response));
-      dispatch(isFetchingSwitch(false))
+      //@ts-ignore
+      dispatch(actions_Contacts_messages_reducer.SetUsers(response)); 
+      dispatch(actions_Contacts_messages_reducer.isFetchingSwitch(false))
       }
 };
 

@@ -1,3 +1,5 @@
+import {InferActionsTypes } from "./redux-store";
+
 const AddMassage = "AddMassage";
 const Change_MessageText = "Change_MessageText";
 const DeleteMessage = "DeleteMessage";
@@ -26,7 +28,7 @@ let initial_state = {
 
 export type initial_state_Messages_reducer = typeof initial_state;
 
-const Messages_reducer = (state = initial_state, action: any) : initial_state_Messages_reducer => {
+const Messages_reducer = (state = initial_state, action: actionsTypes) : initial_state_Messages_reducer => {
   switch (action.type) {
       case AddMassage : 
       let newPost = {
@@ -47,6 +49,7 @@ const Messages_reducer = (state = initial_state, action: any) : initial_state_Me
       case Change_MessageText :
         return {
           ...state,
+          //@ts-ignore
           MessageText : action.CurrentText,
         }
       default : 
@@ -54,28 +57,32 @@ const Messages_reducer = (state = initial_state, action: any) : initial_state_Me
   } 
 };
 
+type actionsTypes = InferActionsTypes<typeof  actions_Message_Page_reducer>
 
-export type ActionCreatorReturnText_type = {
-  type : typeof AddMassage
+const actions_Message_Page_reducer = {
+  ActionCreatorReturnText : ()  => {
+    return { type: AddMassage };
+  },
+  
+  ActionDeleteMessage : ()  => {
+    return { type: DeleteMessage };
+  },
+  
+  ActionCreatorChangeText : (text : string)  => {
+    return { type: Change_MessageText, CurrentText: text };
+  },
 }
 
-export type ActionDeleteMessage_type = {
-  type : typeof DeleteMessage 
-}
 
-export type ActionCreatorChangeText_type = {
-  type : typeof Change_MessageText,
-  CurrentText : string
-}
-export const ActionCreatorReturnText = () : ActionCreatorReturnText_type => {
+export const ActionCreatorReturnText = () : actionsTypes => {
   return { type: AddMassage };
 };
 
-export const ActionDeleteMessage = () :  ActionDeleteMessage_type => {
+export const ActionDeleteMessage = () :  actionsTypes => {
   return { type: DeleteMessage };
 };
 
-export const ActionCreatorChangeText = (text : string) : ActionCreatorChangeText_type => {
+export const ActionCreatorChangeText = (text : string) : actionsTypes => {
   return { type: Change_MessageText, CurrentText: text };
 };
 

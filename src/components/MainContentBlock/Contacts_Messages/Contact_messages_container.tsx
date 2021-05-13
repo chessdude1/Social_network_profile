@@ -27,7 +27,7 @@ type Contacts_messages_type = MapDispatchPropsType & MapStatePropsType
 
 type MapDispatchPropsType = {
   isFetchingSwitch : (isFetchingStatus : boolean) => void
-  SetUsers : (users : number) => void
+  SetUsers : (users : any) => void
   unfollowAPIthunkCreator : (userId : number) => void
   UnFollow : (userId : number) => void
   followingInProgressSwitch : (followingStatus : boolean, userId : number) => void

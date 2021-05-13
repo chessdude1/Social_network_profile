@@ -1,5 +1,7 @@
+import {InferActionsTypes, BaseThunkType} from './redux-store'
 const AddTextProfilePage = "AddTextProfilePage";
 const ChangeProfilePageText = "ChangeProfilePageText";
+
 
 let initial_state = {
   Experience_post_description: [] as any,
@@ -9,11 +11,12 @@ let initial_state = {
 export type initial_state_type = typeof initial_state
 
 
-const Experience_post_reducer = (state = initial_state, action : any) : initial_state_type => {
+const Experience_post_reducer = (state = initial_state, action : actionsTypes) : initial_state_type => {
   switch (action.type) {
     case ChangeProfilePageText:
       return { 
         ...state,
+        //@ts-ignore
         CurrentText : action.CurrentProfilePageText,
       }
     case AddTextProfilePage:
@@ -33,23 +36,29 @@ const Experience_post_reducer = (state = initial_state, action : any) : initial_
   }
 };
 
-export type ChProfilePageText_type = {
-  type : typeof ChangeProfilePageText,
-  CurrentProfilePageText : string
+type actionsTypes = InferActionsTypes<typeof actionsExperience_post_reducers>
+
+const actionsExperience_post_reducers = {
+  ChProfilePageText : (textProfilePage : string)  => {
+    return {
+      type: ChangeProfilePageText,
+      CurrentProfilePageText: textProfilePage,
+    };
+  },
+  
+ Return_MessageText : () => {
+    return { type: AddTextProfilePage };
+  }
 }
 
-export type Return_MessageText_type = {
-  type : typeof AddTextProfilePage
-}
-
-export const ChProfilePageText = (textProfilePage : string) :  ChProfilePageText_type => {
+export const ChProfilePageText = (textProfilePage : string) :  actionsTypes => {
   return {
     type: ChangeProfilePageText,
     CurrentProfilePageText: textProfilePage,
   };
 };
 
-export const Return_MessageText = () : Return_MessageText_type  => {
+export const Return_MessageText = () : actionsTypes  => {
   return { type: AddTextProfilePage };
 };
 

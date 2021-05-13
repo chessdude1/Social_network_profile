@@ -10,75 +10,143 @@ const instance = axios.create({
 
 export enum ResultCodesEnum {
   Success = 0,
-  Error = 1
+  Error = 1,
 }
 
 export enum ResultCodesEnumForCaptcha {
-    CaptchaIsRequired = 10,
+  CaptchaIsRequired = 10,
+}
+
+type getLoginDataType = {
+  id: number;
+  email: string;
+  login: string;
+};
+
+type GetItemsType = {
+  items: {
+    name: string;
+    id: number;
+    photos: {
+      small: null | string;
+      large: null | string;
+    };
+    status: null | string;
+    followed: boolean;
+  };
+};
+
+type PhotosType = {
+  photos : {
+  small : string | null
+  large: string | null
+  }
+}
+type ResponseType<D = {}, RC = ResultCodesEnum> = {
+  data: D;
+  messages: Array<string>;
+  resultCode: RC;
+};
+
+type UserProfileFullData = {
+  data: {
+    userId: number;
+    lookingForAJob: boolean;
+    lookingForAJobDescription: string;
+    fullName: string;
+    contacts: object;
+    github: string;
+    vk: string;
+    facebook: string;
+    instagram: string;
+    twitter: string;
+    website: string;
+    youtube: string;
+    mainLink: string;
+    photos: {
+      small: string;
+      large: string;
+    };
+  };
+};
+
+type getCaptchaUrlType = {
+  url : string
 }
 
 export const ProfileAPI = {
-  CurrentProfile(CurrentUserID : number) {
-    return instance.get(`profile/` + CurrentUserID).then((response) => {
-      return response.data;
-    });
+  CurrentProfile(CurrentUserID: number) {
+    return instance
+      .get<UserProfileFullData>(`profile/` + CurrentUserID)
+      .then((response) => {
+        return response.data;
+      });
   },
-  getUserStatus(userID : number) {
-    return instance.get(`profile/status/` + userID);
+
+  getUserStatus(userID: number) {
+    return instance.get<UserProfileFullData>(`profile/status/` + userID);
   },
-  updateStatus(status : string) {
+
+  updateStatus(status: string) {
     return instance.put(`profile/status`, { status: status });
   },
-  savePhotoAPI(photoFile : any) {
+
+  savePhotoAPI(photoFile: any) {
     const formData = new FormData();
-    formData.append('image', photoFile)
-    return instance.put(`profile/photo/`, formData, {
+    formData.append("image", photoFile);
+    return instance.put<ResponseType<PhotosType>>(`profile/photo/`, formData, {
       headers: {
-          'Content-Type' : 'multipart/form-data'
-      }
+        "Content-Type": "multipart/form-data",
+      },
     });
   },
-  SaveProfiles(profile : any) {
-    return instance.put(`profile`, profile); 
-  }
+
+  SaveProfiles(profile: any) {
+    return instance.put(`profile`, profile);
+  },
 };
 
 export const ContactsAPI = {
-  getUsers(CurrentPage : number, PageSize : number) {
+  getUsers(CurrentPage: number, PageSize: number) {
     return instance
-      .get(`users?page=${CurrentPage}&count=${PageSize}`)
+      .get<GetItemsType>(`users?page=${CurrentPage}&count=${PageSize}`)
       .then((response) => {
         return response.data.items;
       });
   },
-  unfollow(userID : number) {
+
+  unfollow(userID: number) {
     return instance.delete(`follow/${userID}`).then((response) => {
       return response;
     });
   },
-  follow(userID : number) {
+
+  follow(userID: number) {
     return instance.post(`follow/${userID}`, {}).then((response) => {
       return response;
     });
   },
 };
 
-type getLoginDataType = {
-  data : {
-    id: number
-    email: string
-    login: string
-  }
-  resultCode : ResultCodesEnum | ResultCodesEnumForCaptcha
-  messages : Array<string>
-}
-
 export const AuthAPI = {
   getLoginData() {
-    return instance.get<getLoginDataType>(`auth/me`).then(response => response.data);
+    return instance
+      .get<ResponseType<getLoginDataType>>(`auth/me`)
+      .then((response) => response.data);
   },
-  login(email : number, password : string, rememberMe = false, captcha: null | string = null) {
-    return instance.post(`auth/login`, { email, password, rememberMe, captcha });
+
+  login(
+    email: number,
+    password: string,
+    rememberMe = false,
+    captcha: null | string = null
+  ) {
+    return instance.post(`auth/login`, {
+      email,
+      password,
+      rememberMe,
+      captcha,
+    });
   },
   logOut() {
     return instance.delete(`auth/login`);
@@ -87,6 +155,6 @@ export const AuthAPI = {
 
 export const SecurityAPI = {
   getCaptchaUrl() {
-    return instance.get(`/security/get-captcha-url`)
-  }
-}
+    return instance.get<getCaptchaUrlType>(`/security/get-captcha-url`);
+  },
+};
