@@ -107,9 +107,9 @@ export const ProfileAPI = {
 };
 
 export const ContactsAPI = {
-  getUsers(CurrentPage: number, PageSize: number, term : string = '') {
+  getUsers(CurrentPage: number, PageSize: number, term : string = '', friend = null ) {
     return instance
-      .get<GetItemsType>(`users?page=${CurrentPage}&count=${PageSize}&term=${term}`)
+      .get<GetItemsType>(`users?page=${CurrentPage}&count=${PageSize}&term=${term}`+ (friend === null ? '' : `&friend=${friend}`))
       .then((response) => {
         return response.data.items;
       });

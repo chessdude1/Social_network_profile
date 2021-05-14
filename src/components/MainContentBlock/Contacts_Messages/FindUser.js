@@ -9,7 +9,7 @@ const UsersSearchFormValidate = (values) => {
 
 export const FindUser = (props) => {
     let submit = (values) =>{
-        props.OnFilterChanged(values.find)
+        props.OnFilterChanged(values.find, values.friend)
       }
     return ( <div>
           <Formik
@@ -17,6 +17,11 @@ export const FindUser = (props) => {
          validate={UsersSearchFormValidate}
          onSubmit={ submit}>
            <Form>
+           <Field name="friend" as="select">
+                        <option value="null">All</option>
+                        <option value="true">Only followed</option>
+                        <option value="false">Only unfollowed</option>
+                    </Field>
              <Field type="textarea" name="find" />
              <button type="submit" >
                Find

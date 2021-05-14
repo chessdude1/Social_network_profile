@@ -18,7 +18,7 @@ type MapDispatchPropsType = {
   followAPIthunkCreator : (userId : number) => void
   Follow : (userId : number) => void
   ChangeCurrentPage : (e : number) => void,
-  getUsersAPIthunkCreator : (CurrentPage : number, PageSize : number, term: string) => void,
+  getUsersAPIthunkCreator : (CurrentPage : number, PageSize : number, name: string, friend ?: string) => void,
 }
 
 type MapStatePropsType = {
@@ -44,9 +44,9 @@ class Contacts_messagesAPI extends React.Component<Contacts_messages_type> {
       this.props.getUsersAPIthunkCreator(e, this.props.PageSize, '')
     }
     
-    OnFilterChanged = (filter: any) => { //typeof initial_state.filter //
+    OnFilterChanged = (name : string, friend : string) => { //typeof initial_state.filter //
      const {PageSize} = this.props;
-     this.props.getUsersAPIthunkCreator(1, PageSize, filter)
+     this.props.getUsersAPIthunkCreator(1, PageSize, name, friend)
     }
   
     render() {

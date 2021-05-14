@@ -25,6 +25,6 @@ export const GetAuthStatus= (state : AppStateType) => {
     return state.Auth.isAuth
 }
 
-// export const GetUsersFilter= (state : any) => {
-//     return state.Contacts_messages.filter.term
-// }
+export const GetUsersFilter= (state : any) => {
+    return state.Contacts_messages.filter.term
+}

@@ -62,6 +62,7 @@ export const Contacts_messages_reducer = (state = initial_state, action : action
         state.followingInProgress.filter(id => id != action.userId)
       }
     case SetFilter_type :
+      debugger
       return {
         ...state, filter : action.payload
       }
@@ -110,7 +111,7 @@ export const actions_Contacts_messages_reducer = {
       SetUsers : (users  : number) : SetUsers_type => ({type: Set_users, users}),
       ChangeCurrentPage : (CurrentPage  : number) : ChangeCurrentPage_type => ({type: Change_CurrentPage, CurrentPage}),
       isFetchingSwitch : (isFetchingStatus  : boolean) : isFetchingSwitch_type => ({type: isFetchingSwitch_type, isFetchingStatus }),
-      SetFilter : (term : string) : any => ({type: SetFilter_type, payload : {term} }),
+      SetFilter : (name : string, friend : string) : any => ({type: SetFilter_type, payload : {name , friend} }),
       followingInProgressSwitch : (followingStatus : boolean, userId : number) : followingInProgressSwitch => ({type: followingInProgress_type, followingStatus, userId })
 }
 export const Follow = (userId : number) : Follow_type => ({ type: Follow_change, userId});
@@ -119,7 +120,7 @@ export const SetUsers = (users  : number) : SetUsers_type => ({type: Set_users, 
 export const ChangeCurrentPage = (CurrentPage  : number) : ChangeCurrentPage_type => ({type: Change_CurrentPage, CurrentPage});
 export const isFetchingSwitch = (isFetchingStatus  : boolean) : isFetchingSwitch_type => ({type: isFetchingSwitch_type, isFetchingStatus });
 export const followingInProgressSwitch = (followingStatus : boolean, userId : number) : followingInProgressSwitch => ({type: followingInProgress_type, followingStatus, userId })
-export const SetFilter = (term : string) : any => ({type: SetFilter_type, payload : {term} })
+export const SetFilter = (name : string, friend : any ) : any => ({type: SetFilter_type, payload : {name , friend} })
 
 const followUnfollowSwitch = async (dispatch : any, userID: number, APImethod : any, actionCreator : any ) => {
   dispatch(actions_Contacts_messages_reducer.followingInProgressSwitch(true, userID));
@@ -146,13 +147,15 @@ export const unfollowAPIthunkCreator = (userID : number) => {
   }
 }
 
-export const getUsersAPIthunkCreator = (CurrentPage : number, PageSize : number, term: string) => {
+export const getUsersAPIthunkCreator = (CurrentPage : number, PageSize : number, name: string, friend ?:  string | null | undefined ) => {
   return async(dispatch : any) => {
       dispatch(actions_Contacts_messages_reducer.isFetchingSwitch(true));
-      let response = await(ContactsAPI.getUsers(CurrentPage, PageSize, term));
+      //@ts-ignore
+      let response = await(ContactsAPI.getUsers(CurrentPage, PageSize, name, friend));
       //@ts-ignore
       dispatch(actions_Contacts_messages_reducer.SetUsers(response));
-      dispatch(actions_Contacts_messages_reducer.SetFilter(term));  
+      //@ts-ignore
+      dispatch(actions_Contacts_messages_reducer.SetFilter(name, friend));  
       dispatch(actions_Contacts_messages_reducer.isFetchingSwitch(false))
       }
 };
