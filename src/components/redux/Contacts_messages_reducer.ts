@@ -24,7 +24,8 @@ let initial_state = {
   isFetching : false as boolean,
   followingInProgress : [] as Array<followingInProgressType>,
   filter : {
-    term : ''
+    term : '',
+    friend : false
   }
 };
 
@@ -62,7 +63,6 @@ export const Contacts_messages_reducer = (state = initial_state, action : action
         state.followingInProgress.filter(id => id != action.userId)
       }
     case SetFilter_type :
-      debugger
       return {
         ...state, filter : action.payload
       }

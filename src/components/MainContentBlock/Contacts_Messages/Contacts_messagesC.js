@@ -1,21 +1,84 @@
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { NavLink, useHistory } from "react-router-dom";
 import userPhoto from "../../../img/user.png";
-import React from "react";
-import styles from "./Contacts_messagesC.module.css";
-import { NavLink, Redirect } from "react-router-dom";
 import { Paginator } from "../../common/paginator/paginator";
+import Preloader from "../../common/preloader";
+import { ChangeCurrentPage, followAPIthunkCreator, getUsersAPIthunkCreator, unfollowAPIthunkCreator } from "../../redux/Contacts_messages_reducer";
+import { GetCurrentPage, GetPageSize, GetTotalCount, GetContacts_messages, GetIsFetching, GetUsersFilter, GetAuthStatus, GetFollowingStatus } from "../../redux/selectors/Contact_messages_reducer";
 import { FindUser } from "./FindUser";
+import * as queryString from 'querystring'
+
+
 
 const Contacts_messagesC = (props) => {
+  const totalCount = useSelector(GetTotalCount)
+  const PageSize = useSelector(GetPageSize)
+  const dispatch = useDispatch();
+  const CurrentPage = useSelector(GetCurrentPage)
+  const Contacts_messages = useSelector(GetContacts_messages)
+  const isFetching = useSelector(GetIsFetching)
+  const filter = useSelector(GetUsersFilter)
+  const AuthStatus = useSelector(GetAuthStatus)
+  const followingStatus = useSelector(GetFollowingStatus)
+  // useEffect(()=> {dispatch(getUsersAPIthunkCreator(CurrentPage, PageSize, ''))}, [])
+  const follow = (userID) =>{ dispatch(followAPIthunkCreator(userID))}
+  const unfolloww = (userID) => { dispatch(unfollowAPIthunkCreator(userID))}
+
+  const OnPageChanged = (e ) => {
+    dispatch(ChangeCurrentPage(e));
+    dispatch(getUsersAPIthunkCreator(e, PageSize, ''))
+  }
+
+  const OnFilterChanged = (name , friend ) => { //typeof initial_state.filter //
+    dispatch(getUsersAPIthunkCreator(1, PageSize, name, friend))
+   }
+
+   const history = useHistory()
+
+   useEffect(() => {
+    const parsed = queryString.parse(history.location.search.substr(1)) 
+
+        let actualPage = CurrentPage
+        let actualFilter = filter
+
+        if (!!parsed.page) actualPage = Number(parsed.page)
+
+
+        if (!!parsed.term) actualFilter = {...actualFilter, term: parsed.term }
+
+        switch(parsed.friend) {
+            case "null":
+                actualFilter = {...actualFilter, friend: null}
+                break;
+            case "true":
+                actualFilter = {...actualFilter, friend: true}
+                break;
+            case "false":
+                actualFilter = {...actualFilter, friend: false}
+                break;
+        }
+        dispatch(getUsersAPIthunkCreator(actualPage, PageSize, actualFilter.term, actualFilter.friend))
+   },[])
+
+   useEffect(()=> {
+    history.push({
+      pathname: '/contact_messages',
+      search: `?term=${filter.name}&friend=${filter.friend}&page=${CurrentPage}`
+    })
+  },[filter,CurrentPage])
+  
   return (
     <div>
-      <FindUser OnFilterChanged={props.OnFilterChanged}/>
+      {isFetching ? <Preloader></Preloader> : <p>Users list</p>}
+      <FindUser OnFilterChanged={OnFilterChanged}/>
       <Paginator
-        CurrentPage={props.CurrentPage}
-        totalCount={props.totalCount}
-        PageSize={props.PageSize}
-        OnPageChanged={props.OnPageChanged}
+        CurrentPage={CurrentPage}
+        totalCount={totalCount}
+        PageSize={PageSize}
+        OnPageChanged={OnPageChanged}
       />
-      {props.Contacts_messages.map((u) => (
+      {Contacts_messages.map((u) => (
         <div>
           <NavLink to={"/Profile/" + u.id}>
             <div>
@@ -27,21 +90,18 @@ const Contacts_messagesC = (props) => {
           <div>
             {u.followed ? (
               <button
-                disabled={props.followingStatus.some((id) => id == u.id)}
+                disabled={followingStatus.some((id) => id == u.id)}
                 onClick={() => {
-                  props.follow(u.id);
-                }}
-              >
+                  follow(u.id);
+                }}>
                 {" "}
                 UnFollow{" "}
-              </button>
-            ) : (
-              <button
-                disabled={props.followingStatus.some((id) => id == u.id)}
+              </button>) : 
+              (<button
+                disabled={followingStatus.some((id) => id == u.id)}
                 onClick={() => {
-                  props.unfolloww(u.id);
-                }}
-              >
+                  unfolloww(u.id);
+                }}>
                 {" "}
                 Follow{" "}
               </button>
