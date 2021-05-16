@@ -7,6 +7,7 @@ import "./MainContentBlock.css"
 import Messages_Container from "./Messages/Messages_Container"
 import LoginContainer from "../Header/Login/LoginContainer"
 import { ReactLazyHOC } from "../HOC/ReactLazy";
+import { ChatPage } from "./Chat/ChatPage";
 
 const Profile_Container= React.lazy(()=> 
   import ("../Profile/Profile_Container")
@@ -14,7 +15,7 @@ const Profile_Container= React.lazy(()=>
 
 
 const Settings= React.lazy(()=> 
-  import ("./Settings/Settings")
+  import ("./Chat/ChatPage")
 )
 
 const Main_content_block = (props) => {
@@ -27,7 +28,7 @@ const Main_content_block = (props) => {
             <Route path='/Messages' render={() => <Messages_Container Messages_Page_Data={props.state.Messages_page} dispatch={props.dispatch} />}/>
             <Route path='/contact_messages' render={() => <Contact_messages_container />}/>
             <Suspense fallback='loading...'>
-                <Route path='/Settings' render={()=> ReactLazyHOC(Settings)}/>
+                <Route path='/Chat' render={()=> ReactLazyHOC(ChatPage)}/>
             </Suspense>
         </div>
 
