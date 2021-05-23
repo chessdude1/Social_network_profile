@@ -9,9 +9,19 @@ import { GetCurrentPage, GetPageSize, GetTotalCount, GetContacts_messages, GetIs
 import { FindUser } from "./FindUser";
 import * as queryString from 'querystring'
 
+type UserInList = {
+  followed : boolean,
+  id : any // конфликт с Array<followingInProgressType>
+  name: string
+  photos : {
+    small: null | string,
+    large: null | string,
+  }
+  status: null | boolean
+  uniqueUrlName ?: null | string
+}
 
-
-const Contacts_messagesC = (props) => {
+const Contacts_messagesC = () => {
   const totalCount = useSelector(GetTotalCount)
   const PageSize = useSelector(GetPageSize)
   const dispatch = useDispatch();
@@ -21,16 +31,15 @@ const Contacts_messagesC = (props) => {
   const filter = useSelector(GetUsersFilter)
   const AuthStatus = useSelector(GetAuthStatus)
   const followingStatus = useSelector(GetFollowingStatus)
-  // useEffect(()=> {dispatch(getUsersAPIthunkCreator(CurrentPage, PageSize, ''))}, [])
-  const follow = (userID) =>{ dispatch(followAPIthunkCreator(userID))}
-  const unfolloww = (userID) => { dispatch(unfollowAPIthunkCreator(userID))}
+  const follow = (userID : number) =>{ dispatch(followAPIthunkCreator(userID))}
+  const unfolloww = (userID :  number) => { dispatch(unfollowAPIthunkCreator(userID))}
 
-  const OnPageChanged = (e ) => {
+  const OnPageChanged = (e : number ) => {
     dispatch(ChangeCurrentPage(e));
     dispatch(getUsersAPIthunkCreator(e, PageSize, ''))
   }
 
-  const OnFilterChanged = (name , friend ) => { //typeof initial_state.filter //
+  const OnFilterChanged = (name : string , friend : null | undefined | string ) => { //typeof initial_state.filter //
     dispatch(getUsersAPIthunkCreator(1, PageSize, name, friend))
    }
 
@@ -67,7 +76,7 @@ const Contacts_messagesC = (props) => {
       search: `?term=${filter.name}&friend=${filter.friend}&page=${CurrentPage}`
     })
   },[filter,CurrentPage])
-  
+  debugger
   return (
     <div>
       {isFetching ? <Preloader></Preloader> : <p>Users list</p>}
@@ -78,7 +87,7 @@ const Contacts_messagesC = (props) => {
         PageSize={PageSize}
         OnPageChanged={OnPageChanged}
       />
-      {Contacts_messages.map((u) => (
+      {Contacts_messages.map((u : UserInList) => (
         <div>
           <NavLink to={"/Profile/" + u.id}>
             <div>
@@ -114,4 +123,3 @@ const Contacts_messagesC = (props) => {
 };
 
 export default Contacts_messagesC;
-

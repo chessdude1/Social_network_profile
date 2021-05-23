@@ -31,7 +31,6 @@ type ThunkType = BaseThunkType<ActionsType>
 let actions_app_Reducer = {
   InitializedSwitch : () => ({type: InitializedSuccess})
 }
-// export const InitializedSwitch = () : InitializedSwitchType  => ({type: InitializedSuccess})
 
 export const initializedApp = () : ThunkType => async(dispatch) => {
   let promise = dispatch(getAuthUserDataThunkCreator())

@@ -1,4 +1,3 @@
-import axios from "axios";
 import { ContactsAPI, ResultCodesEnum } from "../../api/api";
 import { updateObjectInArray } from "../../utilites/object-helpers";
 import { BaseThunkType, InferActionsTypes } from "./redux-store";
@@ -121,6 +120,8 @@ export const ChangeCurrentPage = (CurrentPage  : number) : ChangeCurrentPage_typ
 export const isFetchingSwitch = (isFetchingStatus  : boolean) : isFetchingSwitch_type => ({type: isFetchingSwitch_type, isFetchingStatus });
 export const followingInProgressSwitch = (followingStatus : boolean, userId : number) : followingInProgressSwitch => ({type: followingInProgress_type, followingStatus, userId })
 export const SetFilter = (name : string, friend : any ) : any => ({type: SetFilter_type, payload : {name , friend} })
+
+
 
 const followUnfollowSwitch = async (dispatch : any, userID: number, APImethod : any, actionCreator : any ) => {
   dispatch(actions_Contacts_messages_reducer.followingInProgressSwitch(true, userID));

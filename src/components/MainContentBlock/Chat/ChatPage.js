@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import userPhoto from "../../../img/user.png";
 
 export const ChatPage = () => {
   return (
@@ -55,7 +56,7 @@ const ChatMessages = ({ ws }) => {
     ws?.addEventListener("message", messageHandler);
 
     return () => {
-      ws?.removeEventListener('message', messageHandler)
+      ws?.removeEventListener('message', messageHandler) //предотвращение утечки памяти, отписка от всех событий //
     }
 
   }, [ws]);
@@ -72,7 +73,7 @@ const ChatMessages = ({ ws }) => {
 const Message = (props) => {
   return (
     <div>
-      <img src={props.message.photo} />
+      {props.message.photo ? <img src={props.message.photo}/> : <img src={userPhoto}/> }
       <div>{props.message.UserName}</div>
       <div>{props.message.message}</div>
     </div>
